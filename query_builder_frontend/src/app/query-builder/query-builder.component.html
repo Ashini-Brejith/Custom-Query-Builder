@@ -1,0 +1,32 @@
+
+<div class="font-serif container flex">
+<div class="sidebar w-1/4 bg-gray-200 p-4 h-screen">
+<h1 class="text-2xl font-bold mb-4">QUERY BUILDER</h1>
+<ul class="space-y-3">
+<li>
+<button (click)="selectPage('create')" [ngClass]="{'bg-gray-400': currentPage === 'create'}" class="w-full text-left py-2 px-4 hover:bg-gray-400 text-lg">
+Create Queries
+</button>
+</li>
+<li>
+<button class="w-full text-left py-2 px-4 hover:bg-gray-400 text-lg">Select Queries</button>
+</li>
+<li>
+<button class="w-full text-left py-2 px-4 hover:bg-gray-400 text-lg">Insert Queries</button>
+</li>
+<li>
+<button class="w-full text-left py-2 px-4 hover:bg-gray-400 text-lg">Update Queries</button>
+</li>
+<li>
+<button class="w-full text-left py-2 px-4 hover:bg-gray-400 text-lg">Delete Queries</button>
+</li>
+</ul>
+</div>
+<div class="main-content w-3/4">
+<div *ngIf="currentPage === 'create'">
+<app-create-queries></app-create-queries>
+</div>
+</div>
+</div>
+
+
