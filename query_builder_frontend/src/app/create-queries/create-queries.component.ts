@@ -14,8 +14,8 @@ export class CreateQueriesComponent {
 	  columns: Array<any> = [
     {
       name: '',
-      type: 'int',
-      length: null,
+      type: '',
+      length: '',
       notNull: false,
       primaryKey: false,
       unique: false,
@@ -26,8 +26,8 @@ export class CreateQueriesComponent {
   addColumn(): void {
     this.columns.push({
       name: '',
-      type: 'int',
-      length: null,
+      type: '',
+      length: '',
       notNull: false,
       primaryKey: false,
       unique: false,
@@ -42,6 +42,6 @@ export class CreateQueriesComponent {
 
   onSubmit(): void {
     console.log('Form Submitted', this.columns);
-    alert(`CREATE TABLE ${this.tableName} (${this.columns.map((c)=>`${c.name} ${c.type.toUpperCase()}`).join(',')})`);
+    //alert(`CREATE TABLE ${this.tableName} (${this.columns.map((c)=>`${c.name} ${c.type.toUpperCase()}`).join(',')})`);
   }
 }

@@ -148,23 +148,24 @@
           Add Column
         </button>
 
-        <button
+        <!--<button
           type="submit"
           class="py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-700"
         >
           Create Table
-        </button>
+	</button>-->
       </div>
     </div>
   </form>
 
-  <div *ngIf="tableName && columns.length >0" class="mb-4">
-    <h1>Query Preview</h1>
+  <div *ngIf="tableName && columns.length >0" class="text-center mb-4">
+    <h1 class="text-lg font-bold mb-4 text-green-700">QUERY BUILDER</h1>
     <p>
       CREATE TABLE <strong>{{tableName}}</strong> (<span
         *ngFor="let column of columns; let i=index"
       >
-        {{column.name}} {{column.type.toUpperCase()}}
+      {{column.name}} {{column.type.toUpperCase()}}
+
         <span *ngIf="i<columns.length-1">, </span> </span
       >)
     </p>
