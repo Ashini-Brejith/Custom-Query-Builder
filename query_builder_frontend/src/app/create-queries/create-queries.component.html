@@ -1,45 +1,168 @@
 <div class="query-form font-serif">
-<h3 class="font-bold ext-xl my-6 text-center">CREATE QUERY</h3>
-<form id="query-form">
-<div class="m-4 p-4">
-<label for="tableName" class="block mb-2">Table Name:</label>
-<input type="text" id="tableName" name="tableName" class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5 mb-2" required />
+  <h3 class="font-bold text-xl my-6 text-center">CREATE QUERY</h3>
 
-<div class="form-group mb-4">
-<label class="block text-sm font-medium text-gray-700 mb-2" for="columns">Columns</label>
-<div class="columns-container mx-auto flex flex-wrap justify-center">
-<div class="column w-1/5 mr-4">
-<label class="block text-sm font-medium text-gray-700 mb-2" for="column-name">Name</label>
-<input type="text" id="columnName" name="columnName" class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-2.5 mb-2" required />
-</div>
-<div class="column w-1/5 mr-4">
-<label class="block text-sm font-medium text-gray-700 mb-2" for="column-type">Type</label>
-<select id="column-type" name="column-type" class="border border-gray-900 rounded-lg focus:ring-blue-500 foucus:border-blue-500 block w-full h-8 p-2.5 mb-2">
-<option value="int">Integer</option>
-<option value="varchar">Varchar</option>
-<option value="datetime">Datetime</option>
-</select>
-</div>
-<div class="column w-1/5 mr-4">
-<label class="block text-sm font-medium text-gray-700 mb-2" for="column-length">Length</label>
-<input type='number' id="column-length" name="column-length" class="border border-gray-900 rounded-lg focus:ring-blue-500 foucus:border-blue-500 block w-full h-8 p-2.5 mb-2">
-</div>
-<div class="column w-1/5 mr-4 flex">
-<div class="w-1/2 mr-2">
-<label class="block text-sm font-medium text-gray-700 mb-2" for="column-not-null">Not Null</label>
-<input type="checkbox" id="column-not-null" name="column-not-null" class="h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500">
-</div>
-<div class="w-1/2">
-<label class="block text-sm font-medium text-gray-700 mb-2" for="column-primary-key">Primary Key</label>
-<input type="checkbox" id="column-primary-key" name="column-primary-key" class="h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500">
-</div>
-</div>
-</div>
-<div class="mt-6 mx-2 flex justify-center">
-<button type="button"  class="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-700 mr-4">Remove Column</button>
-<button type="button"  class="py-2 px-4 bg-indigo-500 text-white rounded-md hover:bg-indigo-700">Add Column</button>
-</div>
-</div>
-</div>
-</form>
+  <form (ngSubmit)="onSubmit()">
+    <div class="m-4 p-4">
+      <label for="tableName" class="font-bold text-lg block mb-2"
+        >Table Name</label
+      >
+      <input
+        type="text"
+        [(ngModel)]="tableName"
+        name="tableName"
+        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5 mb-2"
+        required
+      />
+
+      <div class="form-group mb-4">
+        <label class="block text-lg font-bold mb-2" for="columns"
+          >Columns</label
+        >
+
+        <!-- Dynamic Columns -->
+        <div
+          *ngFor="let column of columns; let i = index"
+          class="columns-container mx-auto flex flex-nowrap justify-between"
+        >
+          <div class="column w-1/6 px-2 mb-4">
+            <label class="block text-md font-medium" for="column-name"
+              >Name</label
+            >
+            <input
+              [(ngModel)]="column.name"
+              name="name{{i}}"
+              class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-2.5"
+              required
+            />
+          </div>
+
+          <div class="column w-1/6 px-2 mb-4">
+            <label class="block text-md font-medium" for="column-type"
+              >Type</label
+            >
+            <select
+              [(ngModel)]="column.type"
+              name="type{{i}}"
+              class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-1"
+            >
+              <option value="bigint">Bigint</option>
+              <option value="bigserial">Big Serialt</option>
+              <option value="boolean">Boolean</option>
+              <option value="box">Box</option>
+              <option value="bytea">Bytea (Binary Data)</option>
+              <option value="char">Char</option>
+              <option value="cidr">CIDR (IP Network)</option>
+              <option value="circle">Circle</option>
+              <option value="date">Date</option>
+              <option value="double precision">Double Precision</option>
+              <option value="integer">Integer</option>
+              <option value="inet">INET (IP Address)</option>
+              <option value="interval">Interval</option>
+              <option value="json">JSON</option>
+              <option value="jsonb">JSONB (Binary JSON)</option>
+              <option value="line">Line</option>
+              <option value="lseg">Line Segment</option>
+              <option value="macaddr">MAC Address</option>
+              <option value="money">Money</option>
+              <option value="numeric">Numeric</option>
+              <option value="point">Point</option>
+              <option value="polygon">Polygon</option>
+              <option value="real">Real</option>
+              <option value="smallint">Smallint</option>
+              <option value="smallserial">Small Serial</option>
+              <option value="text">Text</option>
+              <option value="timestamp">Timestamp</option>
+              <option value="timestamp with time zone">
+                Timestamp with Time Zone
+              </option>
+              <option value="time">Time</option>
+              <option value="time with time zone">Time with Time Zone</option>
+              <option value="uuid">UUID</option>
+              <option value="varchar">Varchar</option>
+            </select>
+          </div>
+
+          <div class="column w-1/6 px-2 mb-4">
+            <label class="block text-md font-medium" for="column-length"
+              >Length</label
+            >
+            <input
+              [(ngModel)]="column.length"
+              name="length{{i}}"
+              type="number"
+              class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-2.5"
+            />
+          </div>
+
+          <div class="column w-1/6 px-2 mb-4">
+            <label class="block text-md font-medium" for="column-not-null"
+              >Not Null</label
+            >
+            <input
+              [(ngModel)]="column.notNull"
+              name="notNull{{i}}"
+              type="checkbox"
+              class="h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500"
+            />
+          </div>
+
+          <div class="column w-1/6 px-2 mb-4">
+            <label class="block text-md font-medium" for="column-primary-key"
+              >Primary Key</label
+            >
+            <input
+              [(ngModel)]="column.primaryKey"
+              name="primaryKey{{i}}"
+              type="checkbox"
+              class="h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500"
+            />
+          </div>
+
+          <div class="column w-1/6 px-2 mb-4">
+            <label class="block text-md font-medium" for="column-unique"
+              >Unique</label
+            >
+            <input
+              [(ngModel)]="column.unique"
+              name="unique{{i}}"
+              type="checkbox"
+              class="h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 mx-2 flex justify-center">
+        <button
+          type="button"
+          (click)="removeColumn()"
+          class="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-700 mr-4"
+        >
+          Remove Column
+        </button>
+        <button
+          type="button"
+          (click)="addColumn()"
+          class="py-2 px-4 bg-indigo-500 text-white rounded-md hover:bg-indigo-700 mr-4"
+        >
+          Add Column
+        </button>
+
+        <button
+          type="submit"
+          class="py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-700">
+          Create Table
+        </button>
+      </div>
+    </div>
+  </form>
+
+	<div *ngIf="tableName && columns.length >0" class="mb-4">
+	<h1> Query Preview </h1>
+	<p>CREATE TABLE <strong>{{tableName}}</strong> (<span *ngFor="let column of columns; let i=index"> {{column.name}} {{column.type.toUpperCase()}}
+		<span 
+						*ngIf="i<columns.length-1">, </span>
+	</span>)
+	</p>
+	</div>
 </div>
