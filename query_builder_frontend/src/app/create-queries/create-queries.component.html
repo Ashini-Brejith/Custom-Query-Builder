@@ -1,4 +1,4 @@
-<div class="query-form font-serif">
+<div class="query-form font-serif p-6">
   <h3 class="font-bold text-xl my-6 text-center">CREATE QUERY</h3>
 
   <form (ngSubmit)="onSubmit()">
@@ -159,7 +159,7 @@
   </form>
 
   <div *ngIf="tableName && columns.length >0" class="text-center mb-4">
-    <h1 class="text-lg font-bold mb-4 text-green-700">QUERY BUILDER</h1>
+    <h1 class="text-lg font-bold mb-4 text-green-700">QUERY PREVIEW</h1>
     <p>
       CREATE TABLE <strong>{{tableName}}</strong> (<span
         *ngFor="let column of columns; let i=index"
