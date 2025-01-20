@@ -12,7 +12,11 @@
         </button>
       </li>
       <li>
-        <button class="w-full text-left py-2 px-4 hover:bg-gray-400 text-lg">
+        <button
+          (click)="selectPage('select')"
+          [ngClass]="{'bg-gray-400': currentPage==='select'}"
+          class="w-full text-left py-2 px-4 hover:bg-gray-400 text-lg"
+        >
           Select Queries
         </button>
       </li>
@@ -36,6 +40,9 @@
   <div class="main-content w-3/4">
     <div *ngIf="currentPage === 'create'">
       <app-create-queries></app-create-queries>
+    </div>
+    <div *ngIf="currentPage === 'select'">
+	<app-select-queries></app-select-queries>
     </div>
   </div>
 </div>

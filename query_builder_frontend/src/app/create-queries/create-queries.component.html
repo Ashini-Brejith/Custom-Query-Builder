@@ -102,7 +102,7 @@
               [(ngModel)]="column.notNull"
               name="notNull{{i}}"
               type="checkbox"
-              class="h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500"
+              class=" h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500"
             />
           </div>
 
@@ -165,9 +165,13 @@
         *ngFor="let column of columns; let i=index"
       >
       {{column.name}} {{column.type.toUpperCase()}}
+      <span *ngIf="column.length">({{column.length}})</span>
+      <span *ngIf="column.notNull" class="text-indigo-800 font-bold"> NOT NULL</span>
+      <span *ngIf="column.primaryKey" class="text-indigo-800 font-bold"> PRIMARY KEY</span>
+      <span *ngIf="column.unique" class="text-indigo-800 font-bold"> UNIQUE</span>
 
-        <span *ngIf="i<columns.length-1">, </span> </span
-      >)
+      <span *ngIf="i<columns.length-1">,<br> </span> </span
+>)
     </p>
   </div>
 </div>
