@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-queries',
@@ -10,8 +10,10 @@ import { CommonModule} from '@angular/common';
   styleUrl: './create-queries.component.css',
 })
 export class CreateQueriesComponent {
-	  tableName: string = '';
-	  columns: Array<any> = [
+  submitted = false;
+	
+	tableName: string = '';
+  columns: Array<any> = [
     {
       name: '',
       type: '',
@@ -20,8 +22,7 @@ export class CreateQueriesComponent {
       primaryKey: false,
       unique: false,
     },
-  ]
- 
+  ];
 
   addColumn(): void {
     this.columns.push({

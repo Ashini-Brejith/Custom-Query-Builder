@@ -1,46 +1,54 @@
-<div class="query-form p-6 bg-white shadow-md rounded-lg">
-  <h3 class="text-xl mb-4 font-bold">SELECT QUERIES</h3>
+<div class="select-form font-serif p-6">
+  <h3 class="text-xl my-6 font-bold text-center">SELECT QUERIES</h3>
   <form (ngSubmit)="onSubmit()">
-    <!-- Table Name -->
-    <div class="mb-4">
-      <label for="table" class="block font-medium">Table Name</label>
+    <div class="m-4 px-4">
+      <label for="table" class="block font-bold text-lg mb-2"
+        >Table Name <span class="text-red-600">*</span></label
+      >
       <input
         id="table"
         [(ngModel)]="query.table"
         name="table"
-        class="input w-full p-2 border rounded"
+        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
         placeholder="Enter table name"
         required
-      />
+      /> 
+      <div *ngIf="!query.table && submitted" class="text-red-500 mt-1">
+    Table name is required
+  </div>
     </div>
     <!-- Fields to Select -->
-    <div class="mb-4">
-      <label for="fields" class="block font-medium">Fields to Select</label>
+    <div class="mb-4 mx-4 px-4">
+      <label for="fields" class="block font-bold text-lg mb-2"
+        >Fields to Select</label
+      >
       <input
         id="fields"
         [(ngModel)]="query.fields"
         name="fields"
-        class="input w-full p-2 border rounded"
-        placeholder="Enter fields (comma-separated, e.g., id, name)"
+        class="border border-gray-900 rounded-lg focus:riing-blue-500 focus:border-blue-500 block w-2/4 h-8 p-2.5"
+        placeholder="Enter fields as comma-separated (e.g., id, name)"
       />
     </div>
-    <!-- Filters (WHERE clause) -->
-    <div class="mb-4">
-      <label class="block font-medium mb-2">Filters (WHERE Clause)</label>
+    <!--WHERE clause-->
+    <div class="mb-4 mx-4 px-4">
+      <label class="block font-bold text-lg mb-2">Filters (WHERE Clause)</label>
       <div *ngFor="let filter of query.filters; let i = index" class="mb-2">
-        <div class="flex items-center gap-2 mb-2">
+        <div class="flex items-center gap-4 mb-4">
           <input
             type="text"
             [(ngModel)]="filter.field"
             name="filterField{{ i }}"
-            class="input w-1/3 p-2 border rounded"
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
             placeholder="Field"
           />
           <select
             [(ngModel)]="filter.operator"
             name="filterOperator{{ i }}"
-            class="w-1/4 p-2 border rounded"
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-1"
           >
+	    <option value="" disabled selected hidden>Choose a operator</option>
+
             <option value="=">=</option>
             <option value="!=">!=</option>
             <option value=">">&gt;</option>
@@ -48,18 +56,30 @@
             <option value=">=">&gt;=</option>
             <option value="<=">&lt;=</option>
             <option value="LIKE">LIKE</option>
+            <option value="IS NULL">IS NULL</option>
+            <option value="IS NOT NUL">IS NOT NULL</option>
           </select>
           <input
             type="text"
             [(ngModel)]="filter.value"
             name="filterValue{{ i }}"
-            class="input w-1/3 p-2 border rounded"
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
             placeholder="Value"
           />
+          <select
+            [(ngModel)]="filter.condition"
+            name="filterCondition{{i}}"
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-1"
+          > 
+	  <option value="" disabled selected hidden>Choose a condition</option>
+            <option value="AND">AND</option>
+            <option value="OR">OR</option>
+          </select>
+
           <button
             type="button"
             (click)="removeFilter(i)"
-            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+            class="bg-red-500 text-white text-lg px-3 py-1 rounded hover:bg-red-600"
           >
             Remove
           </button>
@@ -68,26 +88,26 @@
       <button
         type="button"
         (click)="addFilter()"
-        class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+        class="bg-indigo-500 text-lg text-white px-3 py-1 rounded hover:bg-indigo-600"
       >
         Add Filter
       </button>
     </div>
-    <!-- Sorting ORDER BY-->
-    <div class="mb-4">
-      <label class="block font-medium">Sort By (ORDER BY)</label>
-      <div class="flex items-center gap-2">
+    <!--ORDER BY-->
+    <div class="mb-4 mx-4 px-4">
+      <label class="block font-bold text-lg mb-2">Sort By (ORDER BY)</label>
+      <div class="flex items-center gap-4">
         <input
           type="text"
           [(ngModel)]="query.orderBy.field"
           name="orderByField"
-          class="input w-2/3 p-2 border rounded"
+          class="border border-gray-900 rounded-lg focus:ring-blur-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
           placeholder="Field to sort by"
         />
         <select
           [(ngModel)]="query.orderBy.direction"
           name="orderByDirection"
-          class="w-1/3 p-2 border rounded"
+          class="border border-gray-900 rounded-lg focus:ring-blur-500 focus:border-blue-500 block w-1/4 h-8 p-1"
         >
           <option value="ASC">Ascending</option>
           <option value="DESC">Descending</option>
@@ -95,49 +115,54 @@
       </div>
     </div>
     <!-- Limit -->
-    <div class="mb-4">
-      <label for="limit" class="block font-medium">Limit</label>
+    <div class="mb-4 mx-4 px-4">
+      <label for="limit" class="block font-bold text-lg mb-2">Limit</label>
       <input
         type="number"
         id="limit"
         [(ngModel)]="query.limit"
         name="limit"
-        class="input w-full p-2 border rounded"
+        class="border border-gray-900 rounded-lg focus:ring-blur-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
         placeholder="Maximum number of records"
         min="1"
       />
     </div>
-    <!-- Preview Section -->
-    <div *ngIf="query.table" class="mb-4">
-      <h4 class="font-medium">Query Preview</h4>
-      <p class="text-sm bg-gray-100 p-2 rounded">
-        SELECT
+
+
+    <div class="mb-4 mx-4 px-4">
+      <button
+        type="submit"
+        class="bg-green-500 text-white text-lg px-4 py-2 rounded hover:bg-green-600"
+      >
+        Generate Query
+      </button>
+    </div>
+
+
+
+    <!-- Query preview -->
+    <div *ngIf="generatedQuery" class="mb-4 text-center">
+      <h4 class="font-bold text-lg mb-4 text-green-700">QUERY PREVIEW</h4>
+      <p class="text-lg">{{generatedQuery}}
+       <!-- SELECT
         <span *ngIf="query.fields">{{ query.fields }}</span>
         <span *ngIf="!query.fields"> *</span>
         FROM <strong>{{ query.table }}</strong>
-        <span *ngIf="query.filters.length > 0">
+        <span *ngIf="query.filters[0].field.toString().length > 0">
           WHERE
-          <span
-            *ngFor="let filter of query.filters; let i = index"
-          >
+          <span *ngFor="let filter of query.filters; let i = index">
             {{ filter.field }} {{ filter.operator }} '{{ filter.value }}'
-            <span *ngIf="i < query.filters.length - 1">AND</span>
+            <span *ngIf="i < query.filters.length - 1"
+              >{{filter.condition}}</span
+            >
           </span>
         </span>
         <span *ngIf="query.orderBy.field">
           ORDER BY {{ query.orderBy.field }} {{ query.orderBy.direction }}
         </span>
-        <span *ngIf="query.limit">LIMIT {{ query.limit }}</span>
+	<span *ngIf="query.limit">LIMIT {{ query.limit }}</span>-->
       </p>
     </div>
-    <!-- Submit Button -->
-    <div class="mb-4">
-      <button
-        type="submit"
-        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        Generate Query
-      </button>
-    </div>
+
   </form>
 </div>

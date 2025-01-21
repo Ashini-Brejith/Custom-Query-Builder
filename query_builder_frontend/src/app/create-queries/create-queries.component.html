@@ -2,9 +2,9 @@
   <h3 class="font-bold text-xl my-6 text-center">CREATE QUERY</h3>
 
   <form (ngSubmit)="onSubmit()">
-    <div class="m-4 p-4">
+    <div class="m-4 px-4">
       <label for="tableName" class="font-bold text-lg block mb-2"
-        >Table Name</label
+        >Table Name <span class="text-red-500"> * </span></label
       >
       <input
         type="text"
@@ -13,6 +13,9 @@
         class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5 mb-2"
         required
       />
+      <div *ngIf="!tableName && submitted" class="text-red-500 mt-1">
+        Table name is required
+      </div>
 
       <div class="form-group mb-4">
         <label class="block text-lg font-bold mb-2" for="columns"
@@ -26,7 +29,7 @@
         >
           <div class="column w-1/6 px-2 mb-4">
             <label class="block text-md font-medium" for="column-name"
-              >Name</label
+              >Name <span class="text-red-500">*</span></label
             >
             <input
               [(ngModel)]="column.name"
@@ -38,7 +41,7 @@
 
           <div class="column w-1/6 px-2 mb-4">
             <label class="block text-md font-medium" for="column-type"
-              >Type</label
+              >Type <span class="text-red-500">*</span></label
             >
             <select
               [(ngModel)]="column.type"
@@ -102,7 +105,7 @@
               [(ngModel)]="column.notNull"
               name="notNull{{i}}"
               type="checkbox"
-              class=" h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500"
+              class="h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500"
             />
           </div>
 
@@ -148,30 +151,44 @@
           Add Column
         </button>
 
-        <!--<button
+        <!-- <button
           type="submit"
           class="py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-700"
         >
           Create Table
-	</button>-->
+       </button>-->
       </div>
     </div>
-  </form>
 
-  <div *ngIf="tableName && columns.length >0" class="text-center mb-4">
-    <h1 class="text-lg font-bold mb-4 text-green-700">QUERY PREVIEW</h1>
-    <p>
-      CREATE TABLE <strong>{{tableName}}</strong> (<span
-        *ngFor="let column of columns; let i=index"
+    <div *ngIf="tableName && columns.length >0" class="text-center mb-4">
+      <h1 class="text-lg font-bold mb-4 text-green-700">QUERY PREVIEW</h1>
+      <p class="text-lg">
+        CREATE TABLE <strong>{{tableName}}</strong> (<span
+          *ngFor="let column of columns; let i=index"
+        >
+          {{column.name}} {{column.type.toUpperCase()}}
+          <span *ngIf="column.length">({{column.length}})</span>
+          <span *ngIf="column.notNull" class="text-indigo-800 font-bold">
+            NOT NULL</span
+          >
+          <span *ngIf="column.primaryKey" class="text-indigo-800 font-bold">
+            PRIMARY KEY</span
+          >
+          <span *ngIf="column.unique" class="text-indigo-800 font-bold">
+            UNIQUE</span
+          >
+
+          <span *ngIf="i<columns.length-1">,<br /> </span> </span
+        >)
+      </p>
+    </div>
+    <!-- <div class="mb-4">
+      <button (click)="generateQuery()"
+        type="submit"
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
       >
-      {{column.name}} {{column.type.toUpperCase()}}
-      <span *ngIf="column.length">({{column.length}})</span>
-      <span *ngIf="column.notNull" class="text-indigo-800 font-bold"> NOT NULL</span>
-      <span *ngIf="column.primaryKey" class="text-indigo-800 font-bold"> PRIMARY KEY</span>
-      <span *ngIf="column.unique" class="text-indigo-800 font-bold"> UNIQUE</span>
-
-      <span *ngIf="i<columns.length-1">,<br> </span> </span
->)
-    </p>
-  </div>
+        Generate Query
+      </button>
+    </div>-->
+  </form>
 </div>

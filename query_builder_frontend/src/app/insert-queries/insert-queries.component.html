@@ -2,7 +2,9 @@
   <h3 class="text-xl my-6 font-bold text-center">INSERT QUERIES</h3>
   <form (ngSubmit)="onSubmit()">
     <div class="m-4 px-4">
-      <label for="table" class="font-bold text-lg block mb-2">Table Name</label>
+      <label for="table" class="font-bold text-lg block mb-2"
+        >Table Name <span class="text-red-500">*</span></label
+      >
       <input
         id="table"
         [(ngModel)]="query.table"
@@ -15,33 +17,36 @@
 
     <div class="mb-4 mx-4 px-4">
       <label class="block font-bold text-lg mb-2">Fields and Values</label>
-      <div
-        *ngFor="let field of query.fields; let i = index"
-        class="mb-2  pb-2"
-      >
+      <div *ngFor="let field of query.fields; let i = index" class="mb-2 pb-2">
         <div class="flex items-center gap-4">
           <!-- Field Name -->
+          <label class="block font-bold mb-2"
+            >Field <span class="text-red-500">*</span></label
+          >
           <input
             type="text"
             [(ngModel)]="field.name"
             name="fieldName{{ i }}"
             class="h-8 input w-1/3 p-2 border border-gray-900 rounded-lg"
-            placeholder="Field Name"
+            placeholder="Field Name separated by commas"
             required
           />
           <!-- Field Value -->
+          <label class="block font-bold mb-2"
+            >Value <span class="text-red-500">*</span></label
+          >
           <input
             type="text"
             [(ngModel)]="field.value"
             name="fieldValue{{ i }}"
-            class="input h-8  w-1/3 p-2 border border-gray-900 rounded-lg"
-            placeholder="Value"
+            class="input h-8 w-1/3 p-2 border border-gray-900 rounded-lg"
+            placeholder="Value separated by commas"
             required
           />
           <button
             type="button"
             (click)="removeField(i)"
-            class="bg-red-500 text-white w-auto  px-3 py-1 rounded hover:bg-red-600"
+            class="bg-red-500 text-white w-auto px-3 py-1 rounded hover:bg-red-600"
           >
             Remove
           </button>
@@ -56,9 +61,12 @@
       </button>
     </div>
     <!-- Query Preview -->
-    <div *ngIf="query.table && query.fields.length > 0" class="text-center mb-4">
+    <div
+      *ngIf="query.table && query.fields.length > 0"
+      class="text-center mb-4"
+    >
       <h4 class="text-lg font-bold mb-4 text-green-700">QUERY PREVIEW</h4>
-      <p>
+      <p class="text-lg">
         INSERT INTO <strong>{{ query.table }}</strong> (
         <span *ngFor="let field of query.fields; let i = index">
           {{ field.name }}<span *ngIf="i < query.fields.length - 1">, </span>
