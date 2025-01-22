@@ -2,21 +2,35 @@
   <h3 class="text-xl my-6 font-bold text-center">SELECT QUERIES</h3>
   <form (ngSubmit)="onSubmit()">
     <div class="m-4 px-4">
-      <label for="table" class="block font-bold text-lg mb-2"
-        >Table Name <span class="text-red-600">*</span></label
-      >
-      <input
-        id="table"
-        [(ngModel)]="query.table"
-        name="table"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
-        placeholder="Enter table name"
-        required
-      /> 
-      <div *ngIf="!query.table && submitted" class="text-red-500 mt-1">
-    Table name is required
-  </div>
+      <div class="flex flex-wrap gap-4">
+        <label for="table" class="block font-bold text-lg mb-2"
+          >Table Name <span class="text-red-600">*</span></label
+        >
+        <input
+          id="table"
+          [(ngModel)]="query.table"
+          name="table"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
+          placeholder="Enter table name"
+          required
+        />
+        <div *ngIf="!query.table && submitted" class="text-red-500 mt-1">
+          Table name is required
+        </div>
+
+        <label for="table-alias" class="block font-bold text-lg mb-2"
+          >Table Alias</label
+        >
+        <input
+          id="alias"
+          [(ngModel)]="query.alias"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
+          placeholder="Enter table alias (optional)"
+          required
+        />
+      </div>
     </div>
+
     <!-- Fields to Select -->
     <div class="mb-4 mx-4 px-4">
       <label for="fields" class="block font-bold text-lg mb-2"
@@ -30,6 +44,73 @@
         placeholder="Enter fields as comma-separated (e.g., id, name)"
       />
     </div>
+
+    <!-- Joins -->
+    <div class="mb-4 mx-4 px-4">
+      <label class="block font-bold text-lg mb-2">Joins</label>
+      <div *ngFor="let join of query.joins; let i = index" class="mb-2">
+        <div class="flex flex-wrap gap-4 items-center">
+          <label for="joinType" class="block font-medium text-lg mb-2"
+            >Type of Join</label
+          >
+          <select
+            [(ngModel)]="join.type"
+            name="joinType{{ i }}"
+            required
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1"
+          >
+            <option value="INNER">INNER JOIN</option>
+            <option value="LEFT">LEFT JOIN</option>
+            <option value="RIGHT">RIGHT JOIN</option>
+            <option value="FULL">FULL JOIN</option>
+          </select>
+          <label for="JoinTable" class="block font-medium text-lg mb-2"
+            >Table</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="join.table"
+            name="joinTable{{ i }}"
+            required
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5"
+            placeholder="Join table name"
+          />
+          <label for="alias" class="block mb-2 font-medium text-lg"
+            >Alias</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="join.alias"
+            placeholder="Alias (optional)"
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5"
+          />
+          <label for="on" class="block font-medium text-lg mb-2">ON</label>
+          <input
+            type="text"
+            [(ngModel)]="join.on"
+            name="joinOn{{ i }}"
+            required
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5"
+            placeholder="ON condition (e.g., a.id = b.ref_id)"
+          />
+          <button
+            type="button"
+            (click)="removeJoin(i)"
+            class="bg-red-500 text-white px-3 py-1 text-lg rounded hover:bg-red-600"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+      <button
+        type="button"
+        (click)="addJoin()"
+        class="bg-indigo-500 text-white px-3 py-1 text-lg rounded  hover:bg-indigo-600 mt-2"
+      >
+        Add Join
+      </button>
+    </div>
+
     <!--WHERE clause-->
     <div class="mb-4 mx-4 px-4">
       <label class="block font-bold text-lg mb-2">Filters (WHERE Clause)</label>
@@ -47,7 +128,7 @@
             name="filterOperator{{ i }}"
             class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-1"
           >
-	    <option value="" disabled selected hidden>Choose a operator</option>
+            <option value="" disabled selected hidden>Choose a operator</option>
 
             <option value="=">=</option>
             <option value="!=">!=</option>
@@ -70,8 +151,10 @@
             [(ngModel)]="filter.condition"
             name="filterCondition{{i}}"
             class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-1"
-          > 
-	  <option value="" disabled selected hidden>Choose a condition</option>
+          >
+            <option value="" disabled selected hidden>
+              Choose a condition
+            </option>
             <option value="AND">AND</option>
             <option value="OR">OR</option>
           </select>
@@ -114,6 +197,7 @@
         </select>
       </div>
     </div>
+
     <!-- Limit -->
     <div class="mb-4 mx-4 px-4">
       <label for="limit" class="block font-bold text-lg mb-2">Limit</label>
@@ -128,7 +212,6 @@
       />
     </div>
 
-
     <div class="mb-4 mx-4 px-4">
       <button
         type="submit"
@@ -138,13 +221,12 @@
       </button>
     </div>
 
-
-
     <!-- Query preview -->
     <div *ngIf="generatedQuery" class="mb-4 text-center">
       <h4 class="font-bold text-lg mb-4 text-green-700">QUERY PREVIEW</h4>
-      <p class="text-lg">{{generatedQuery}}
-       <!-- SELECT
+      <p class="text-lg">
+        {{generatedQuery}}
+        <!-- SELECT
         <span *ngIf="query.fields">{{ query.fields }}</span>
         <span *ngIf="!query.fields"> *</span>
         FROM <strong>{{ query.table }}</strong>
@@ -163,6 +245,5 @@
 	<span *ngIf="query.limit">LIMIT {{ query.limit }}</span>-->
       </p>
     </div>
-
   </form>
 </div>

@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './update-queries.component.css'
 })
 export class UpdateQueriesComponent {
-
+query={}
 }

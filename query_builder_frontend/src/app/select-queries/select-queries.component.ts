@@ -14,11 +14,15 @@ export class SelectQueriesComponent {
 
   query = {
     table: '',
+    alias:'',
     fields: '',
     filters: [{ field: '', operator: '', value: '', condition: '' }],
+    joins: [{ type: 'INNER', table: '', alias: '', on: '' }], 
     orderBy: { field: '', direction: 'ASC' },
     limit: null,
   };
+
+  //Add new filter
   addFilter() {
     this.query.filters.push({
       field: '',
@@ -27,54 +31,73 @@ export class SelectQueriesComponent {
       condition: '',
     });
   }
+
+  //Remove filter
   removeFilter(index: number) {
     this.query.filters.splice(index, 1);
   }
 
+  //Add new join
+  addJoin() {
+    this.query.joins.push({
+      type: 'INNER', 
+      table: '',
+      alias:'',
+      on: '',
+    });
+  }
+
+  //Remove join
+  removeJoin(index: number) {
+    this.query.joins.splice(index, 1);
+  }
+
   onSubmit() {
     this.submitted = true;
+
     if (!this.query.table) {
+      alert('Table name is required.');
       return;
     }
-    let query = 'SELECT ';
-    if (this.query.fields) {
-      query += this.query.fields;
-    } else {
-      query += '*';
-    }
 
-    if (this.query.table) {
-      query += ' FROM ' + this.query.table;
+    const fields = this.query.fields || '*';
+    const tableAlias = this.query.alias? `AS ${this.query.alias}` :'';
 
-      if (this.query.filters[0].field.length > 0) {
-        query += ' WHERE ';
-        for (let i = 0; i < this.query.filters.length; i++) {
-          query +=
-            this.query.filters[i].field +
-            ' ' +
-            this.query.filters[i].operator +
-            " '" +
-            this.query.filters[i].value +
-            "'";
-          if (i < this.query.filters.length - 1) {
-            query += ' ' + this.query.filters[i].condition + ' ';
-          }
-        }
-      }
+    const table = `${this.query.table}${tableAlias}`; 
+    
+    //joins
+    const joins = this.query.joins
+      .filter((join) => join.table && join.on)
+      .map((join) =>{
+	     const alias = join.alias? `AS ${join.alias}`:''
+	      return `${join.type} JOIN ${join.table} ${alias} ON ${join.on}`;
+      })
+      .join(' ');
 
-      if (this.query.orderBy.field) {
-        query +=
-          ' ORDER BY ' +
-          this.query.orderBy.field +
-          ' ' +
-          this.query.orderBy.direction;
-      }
+    //filters
+    const filters = this.query.filters
+      .filter((filter) => filter.field && filter.operator && filter.value)
+      .map(
+        (filter) =>
+          `${filter.field} ${filter.operator} '${filter.value}' ${filter.condition ? filter.condition : ''}`
+      )
+      .join(' ')
+      .trim();
 
-      if (this.query.limit) {
-        query += ' LIMIT ' + this.query.limit;
-      }
-    }
+    const whereClause = filters ? `WHERE ${filters}` : '';
+
+    //orderBy
+    const orderBy = this.query.orderBy.field
+      ? `ORDER BY ${this.query.orderBy.field} ${this.query.orderBy.direction}`
+      : '';
+
+    //limit
+    const limit = this.query.limit ? `LIMIT ${this.query.limit}` : '';
+
+    //generate query
+    const query = `SELECT ${fields} FROM ${table} ${joins} ${whereClause} ${orderBy} ${limit}`.trim();
 
     this.generatedQuery = query;
+    console.log('Generated Query:', query);
   }
 }
