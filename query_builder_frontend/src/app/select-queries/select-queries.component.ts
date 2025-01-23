@@ -61,7 +61,7 @@ export class SelectQueriesComponent {
     }
 
     const fields = this.query.fields || '*';
-    const tableAlias = this.query.alias? `AS ${this.query.alias}` :'';
+    const tableAlias = this.query.alias? ` AS ${this.query.alias}` :'';
 
     const table = `${this.query.table}${tableAlias}`; 
     
@@ -69,8 +69,8 @@ export class SelectQueriesComponent {
     const joins = this.query.joins
       .filter((join) => join.table && join.on)
       .map((join) =>{
-	     const alias = join.alias? `AS ${join.alias}`:''
-	      return `${join.type} JOIN ${join.table} ${alias} ON ${join.on}`;
+	     const alias = join.alias? ` AS ${join.alias}`:''
+	      return `${join.type} JOIN ${join.table}${alias} ON ${join.on}`;
       })
       .join(' ');
 
