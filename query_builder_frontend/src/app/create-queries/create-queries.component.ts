@@ -10,10 +10,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './create-queries.component.css',
 })
 export class CreateQueriesComponent {
-  submitted: boolean  = false;
-generatedQuery= '';
+  submitted: boolean = false;
+  generatedQuery = '';
 
-	tableName: string = '';
+  tableName: string = '';
   columns: Array<any> = [
     {
       name: '',
@@ -75,7 +75,7 @@ generatedQuery= '';
         return columnQuery;
       })
       .join(',\n')});`;
-this.generatedQuery = query;
-console.log('Generated Query:',this.generatedQuery);
- }
+    this.generatedQuery = query;
+    console.log('Generated Query:', this.generatedQuery);
+  }
 }

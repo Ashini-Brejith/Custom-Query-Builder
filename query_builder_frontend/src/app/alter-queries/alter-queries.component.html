@@ -1,0 +1,72 @@
+<div class="m-2">
+  <h2 class="text-xl font-bold my-6 text-center">ALTER TABLE</h2>
+
+  <div class="w-1/4 mb-4 mx-4">
+    <app-table-name
+      [table]="query.table"
+      (tableChange)="query.table = $event"
+      class="w-1/2 mx-auto"
+    ></app-table-name>
+  </div>
+
+  <div class="mb-4 mx-4">
+    <h3 class="text-lg font-semibold mb-2">Modify Columns</h3>
+
+    <div class="mb-4">
+      <h4 class="font-semibold mb-4">Add New Column</h4>
+      <div class="flex items-center gap-4 w-full mb-2">
+        <label>Column Name:</label>
+        <input
+          type="text"
+          [(ngModel)]="query.newColumn.name"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-1/4"
+          placeholder="New Column Name"
+        />
+      
+
+        <label>Column Type:</label>
+        <input
+          type="text"
+          [(ngModel)]="query.newColumn.type"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-1/4"
+          placeholder="New Column Type"
+        />
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <h4 class="mb-4 font-semibold">Rename Existing Column</h4>
+      <div class="flex items-center gap-2 w-full md:w-1/3 mb-2">
+        <label>Old Column Name:</label>
+        <input
+          type="text"
+          [(ngModel)]="query.oldColumnName"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
+          placeholder="Old Column Name"
+        />
+      </div>
+
+      <div class="flex items-center gap-2 w-full md:w-1/3 mb-2">
+        <label>New Column Name:</label>
+        <input
+          type="text"
+          [(ngModel)]="query.newColumnName"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
+          placeholder="New Column Name"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4 mx-4">
+    <app-query-generate-button
+      (generate)="generateQuery()"
+    ></app-query-generate-button>
+  </div>
+
+  <div *ngIf="generatedQuery" class="mt-6 p-4 bg-gray-100 border rounded">
+    <h4 class="text-lg font-bold text-green-600">Generated Query</h4>
+    <pre>{{ generatedQuery }}</pre>
+  </div>
+</div>
+

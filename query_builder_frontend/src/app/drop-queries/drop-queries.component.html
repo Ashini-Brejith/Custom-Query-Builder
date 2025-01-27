@@ -1,0 +1,26 @@
+<div class="m-2">
+  <h2 class="text-xl font-bold my-6 text-center">DROP QUERY</h2>
+
+  <!-- Table Name Component -->
+  <div class="w-1/4 mb-4 mx-4">
+    <app-table-name
+      [table]="query.table"
+      (tableChange)="query.table = $event"
+      class="w-1/2 mx-auto"
+    ></app-table-name>
+  </div>
+
+  <!-- Generate Query Button -->
+  <div class="mb-4 mx-4">
+    <app-query-generate-button
+      (generate)="generateQuery()"
+    ></app-query-generate-button>
+  </div>
+
+  <!-- Display Generated Query -->
+  <div *ngIf="generatedQuery" class="mt-6 p-4 bg-gray-100 border rounded">
+    <h4 class="text-lg font-bold text-green-600">Generated Query</h4>
+    <pre>{{ generatedQuery }}</pre>
+  </div>
+</div>
+

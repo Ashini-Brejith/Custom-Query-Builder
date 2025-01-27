@@ -5,11 +5,11 @@
     <ul class="space-y-3">
       <li>
         <button
-          (click)="selectPage('create')"
+          (click)="selectPage('table')"
           [ngClass]="{'bg-gray-400': currentPage === 'create'}"
           class="w-full text-left py-2 px-4 hover:bg-gray-400 text-lg"
         >
-          Create Queries
+          Table Queries
         </button>
       </li>
       <li>
@@ -53,8 +53,8 @@
 
   <!-- Main Content -->
   <div class="main-content flex-1 bg-gray-100 p-4 overflow-hidden">
-    <div *ngIf="currentPage === 'create'">
-      <app-create-queries></app-create-queries>
+    <div *ngIf="currentPage === 'table'">
+      <app-table-queries></app-table-queries>
     </div>
     <div *ngIf="currentPage === 'select'">
       <app-select-queries></app-select-queries>
