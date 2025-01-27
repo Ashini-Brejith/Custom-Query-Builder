@@ -1,0 +1,75 @@
+<div class="join-section mb-4">
+  <h3 class="font-bold text-lg mb-2">Joins</h3>
+  <div
+    *ngFor="let join of joins; let i = index"
+    class="flex flex-wrap items-center gap-4 mb-4"
+  >
+    <!-- Type Section -->
+    <div class="flex items-center gap-2 w-full md:w-1/5">
+      <label class="whitespace-nowrap">Type:</label>
+      <select
+        [(ngModel)]="join.type"
+        (ngModelChange)="onJoinChange()"
+        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+      >
+        <option value="INNER">INNER</option>
+        <option value="LEFT">LEFT</option>
+        <option value="RIGHT">RIGHT</option>
+        <option value="FULL">FULL</option>
+      </select>
+    </div>
+
+    <!-- Table Section -->
+    <div class="flex items-center gap-2 w-full md:w-1/5">
+      <label class="whitespace-nowrap">Table:</label>
+      <input
+        type="text"
+        [(ngModel)]="join.table"
+        (ngModelChange)="onJoinChange()"
+        name="JoinTable{{ i }}"
+        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+        placeholder="Enter table name"
+      />
+    </div>
+
+    <!-- Alias Section -->
+    <div class="flex items-center gap-2 w-full md:w-1/5">
+      <label class="whitespace-nowrap">Alias:</label>
+      <input
+        type="text"
+        [(ngModel)]="join.alias"
+        (ngModelChange)="onJoinChange()"
+        name="JoinAlias{{ i }}"
+        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+        placeholder="Enter table alias"
+      />
+    </div>
+
+    <!-- On Section -->
+    <div class="flex items-center gap-2 w-full md:w-1/5">
+      <label class="whitespace-nowrap">On:</label>
+      <input
+        type="text"
+        [(ngModel)]="join.on"
+        (ngModelChange)="onJoinChange()"
+        name="JoinOn{{ i }}"
+        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+        placeholder="e.g., a.id = b.ref"
+      />
+    </div>
+
+    <!-- Remove Button -->
+    <button
+      class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+      (click)="removeJoin(i)"
+    >
+      Remove
+    </button>
+  </div>
+
+  <!-- Add Join Button -->
+  <button class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600" (click)="addJoin()">
+    Add Join
+  </button>
+</div>
+

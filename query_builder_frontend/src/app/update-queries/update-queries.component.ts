@@ -1,78 +1,109 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TableNameComponent } from '../table-name/table-name.component';
+import { TableAliasComponent } from '../table-alias/table-alias.component';
+import { QueryGenerateButtonComponent } from '../query-generate-button/query-generate-button.component';
+import { JoinQueryComponent } from '../join-query/join-query.component';
+import { FiltersComponent } from '../filters/filters.component';
+import { LimitComponent } from '../limit/limit.component';
+import { SortComponent } from '../sort/sort.component';
 
 @Component({
   selector: 'app-update-queries',
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TableNameComponent,
+    TableAliasComponent,
+    JoinQueryComponent,
+    FiltersComponent,
+    SortComponent,
+    LimitComponent,
+    QueryGenerateButtonComponent,
+  ],
   templateUrl: './update-queries.component.html',
-  styleUrl: './update-queries.component.css'
 })
 export class UpdateQueriesComponent {
- generatedQuery='';
- submitted=false;
+  query = {
+    table: '',
+    alias: '',
+    fields: [{ name: '', value: '' }],
+    joins: [{ type: 'INNER', table: '', alias: '', on: '' }],
+    filters: [{ field: '', operator: '=', value: '', condition: 'AND' }],
+    limit: '',
+    orderBy: { field: '', direction: 'ASC' },
+  };
 
- query={
- table:'',
- updates:[{field:'', value:''}],
- filters:[{field:'', operator:'', value:'', condition:''}]
- };
+  // Add a new field to the fields array
+  addField() {
+    this.query.fields.push({ name: '', value: '' });
+  }
 
-addUpdate(){
-this.query.updates.push({
-field:'',
-value:''
-});
-}
+  // Remove a field by index
+  removeField(index: number) {
+    this.query.fields.splice(index, 1);
+  }
 
-removeUpdate(index: number){
-this.query.updates.splice(index,1);
-}
-
- addFilter(){
- this.query.filters.push({
- field:'',
- operator:'',
- value:'',
- condition:''
- });
- }
-
- removeFilter(index:number){
- this.query.filters.splice(index,1);
- }
-
-  onSubmit() {
-    this.submitted = true;
-    if (!this.query.table) {
-      alert('Table name is required.');
+  // Define 'generatedQuery' to store the generated query string
+  generatedQuery: string = '';
+  generateQuery() {
+    // Validate table and fields
+    if (
+      !this.query.table ||
+      !this.query.fields ||
+      this.query.fields.length === 0
+    ) {
+      alert('Please provide a table name and at least one field to update.');
       return;
     }
-    if (!this.query.updates.length || !this.query.updates[0].field || !this.query.updates[0].value) {
-      alert('At least one field and value must be specified for the update.');
-      return;
-    }
-    const table = this.query.table;
 
-    // Process updates
-    const updates = this.query.updates
-      .filter((update) => update.field && update.value)
-      .map((update) => `${update.field} = '${update.value}'`)
+    // Handle table with alias
+    const table = `${this.query.table}${
+      this.query.alias ? ` AS ${this.query.alias}` : ''
+    }`;
+
+    // Fields to update
+    const fieldsToUpdate = this.query.fields
+      .filter((field) => field.name && field.value) // Filter out empty fields
+      .map((field) => `${field.name} = '${field.value}'`)
       .join(', ');
 
-    // Process filters
-    const filters = this.query.filters
-      .filter((filter) => filter.field && filter.operator && filter.value)
+    if (!fieldsToUpdate) {
+      alert('Please provide values for at least one field.');
+      return;
+    }
+
+    // Joins with alias
+    const joins = this.query.joins
+      .filter((join) => join.table && join.on) // Ensure joins have necessary values
       .map(
-        (filter) =>
-          `${filter.field} ${filter.operator} '${filter.value}' ${filter.condition || ''}`
+        (join) =>
+          `${join.type} JOIN ${join.table}${
+            join.alias ? ` AS ${join.alias}` : ''
+          } ON ${join.on}`
       )
-      .join(' ')
-      .trim();
+      .join(' ');
+
+    // Filters for WHERE clause
+    const filters = this.query.filters
+      .filter((filter) => filter.field && filter.value) // Ensure filters have values
+      .map((filter) => `${filter.field} ${filter.operator} '${filter.value}'`)
+      .join(' AND ');
     const whereClause = filters ? `WHERE ${filters}` : '';
-    
-    const query = `UPDATE ${table} SET ${updates} ${whereClause}`.trim();
-    this.generatedQuery = query;
-    console.log('Generated Query:', query);
+
+    // ORDER BY clause
+    const orderByClause = this.query.orderBy?.field
+      ? `ORDER BY ${this.query.orderBy.field} ${this.query.orderBy.direction}`
+      : '';
+
+    // LIMIT clause
+    const limitClause = this.query.limit ? `LIMIT ${this.query.limit}` : '';
+
+    // Generate the full query string
+    this.generatedQuery =
+      `UPDATE ${table} SET ${fieldsToUpdate} ${joins} ${whereClause} ${orderByClause} ${limitClause}`.trim();
+
+    console.log('Generated Query:', this.generatedQuery);
   }
 }

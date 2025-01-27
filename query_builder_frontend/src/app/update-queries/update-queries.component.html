@@ -1,125 +1,107 @@
-<div class="update-query font-serif p-6">
-  <h2 class="text-xl my-6 font-bold text-center">UPDATE QUERIES</h2>
-  <form (ngSubmit)="onSubmit()">
-    <div class="m-4 px-4">
-      <label for="table" class="block font-bold text-lg mb-2"
-        >Table Name <span class="text-red-600">*</span></label
-      >
-      <input
-        type="text"
-        id="table"
-        [(ngModel)]="query.table"
-name="table"
-        placeholder="Enter table name"
-        required
-class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
-      />
-      <div *ngIf="!query.table && submitted" class="text-red-500 mt-1">
-        Table name is required
-      </div>
-    </div>
+<div class="m-2">
+  <h2 class="text-xl font-bold my-6 text-center">UPDATE QUERY</h2>
 
-    <!-- Update Fields -->
-    <div class="mb-4 mx-4 px-4">
-      <h3 class="block font-bold text-lg mb-2">Fields & Values to Update</h3>
-      <div *ngFor="let update of query.updates;let i = index" class="mb-2 pb-2">
-        
-<div class="flex items-center gap-4">
-<label class="block font-bold mb-2">Field <span class="text-red-500">*</span></label>
+  <!-- Table Name Component -->
+  <div class="w-full flex flex-wrap gap-4 mb-4 mx-4">
+    <app-table-name
+      [table]="query.table"
+      (tableChange)="query.table = $event"
+      class="w-1/4"
+    ></app-table-name>
+
+    <!-- Table Alias Component -->
+    <app-table-alias
+      [alias]="query.alias"
+      (aliasChange)="query.alias = $event"
+      class="w-1/4"
+    ></app-table-alias>
+  </div>
+
+  <!--Fields to update Section-->
+  <div class="mb-4 mx-4">
+    <h3 class="text-lg font-semibold mb-2">Fields to Update</h3>
+    <div
+      *ngFor="let field of query.fields; let i = index"
+      class="flex flex-wrap items-center gap-4 mb-2"
+    >
+      <!-- Field Name Section -->
+      <div class="flex items-center gap-2 w-full md:w-1/3">
+        <label class="whitespace-nowrap">Field Name:</label>
         <input
           type="text"
-          [(ngModel)]="update.field"
-name="updateField{{i}}"
-          placeholder="Field name (e.g., age)"
-class="h-8 w-1/3 p-2 border border-gray-900 rounded-lg"
+          [(ngModel)]="field.name"
+          name="fieldName{{ i }}"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
+          placeholder="Field name"
         />
-        <label class="block font-bold mb-2">Value <span class="text-red-500">*</span></label>
+      </div>
+
+      <!-- Field Value Section -->
+      <div class="flex items-center gap-2 w-full md:w-1/3">
+        <label class="whitespace-nowrap">Field Value:</label>
         <input
           type="text"
-          [(ngModel)]="update.value"
-name="updateValue{{i}}"
-          placeholder="New value (e.g., 30)"
-          class="h-8 w-1/3 p-2 border border-gray-900 rounded-lg"
+          [(ngModel)]="field.value"
+          name="fieldValue{{ i }}"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
+          placeholder="Field value"
         />
-        <button (click)="removeUpdate(i)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Remove</button>
       </div>
-</div>
 
-      <button (click)="addUpdate()" class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600">Add Field</button>
-    </div>
-
-    <!--WHERE clause-->
-    <div class="mb-4 mx-4 px-4">
-      <label class="block font-bold text-lg mb-2">Filters (WHERE Clause)</label>
-      <div *ngFor="let filter of query.filters; let i = index" class="mb-2">
-        <div class="flex items-center gap-4 mb-4">
-          <input
-            type="text"
-            [(ngModel)]="filter.field"
-            name="filterField{{ i }}"
-            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
-            placeholder="Field"
-          />
-          <select
-            [(ngModel)]="filter.operator"
-            name="filterOperator{{ i }}"
-            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-1"
-          >
-            <option value="" disabled selected hidden>Choose a operator</option>
-
-            <option value="=">=</option>
-            <option value="!=">!=</option>
-            <option value=">">&gt;</option>
-            <option value="<">&lt;</option>
-            <option value=">=">&gt;=</option>
-            <option value="<=">&lt;=</option>
-            <option value="LIKE">LIKE</option>
-            <option value="IS NULL">IS NULL</option>
-            <option value="IS NOT NUL">IS NOT NULL</option>
-          </select>
-          <input
-            type="text"
-            [(ngModel)]="filter.value"
-            name="filterValue{{ i }}"
-            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
-            placeholder="Value"
-          />
-          <select
-            [(ngModel)]="filter.condition"
-            name="filterCondition{{i}}"
-            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-1"
-          >
-            <option value="" disabled selected hidden>
-              Choose a condition
-            </option>
-            <option value="AND">AND</option>
-            <option value="OR">OR</option>
-          </select>
-
-          <button
-            type="button"
-            (click)="removeFilter(i)"
-            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-          >
-            Remove
-          </button>
-        </div>
-      </div>
+      <!-- Remove Button -->
       <button
         type="button"
-        (click)="addFilter()"
-        class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600"
+        (click)="removeField(i)"
+        class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
       >
-        Add Filter
+        Remove
       </button>
     </div>
-<div class="mb-4 mx-4 px-4">
-<button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Generate query</button></div>
 
-    <!--Query preview-->
-    <div *ngIf="generatedQuery" class="mb-4 text-center">
-      <h4 class="font-bold text-lg mb-4 text-green-700">QUERY PREVIEW</h4>
-      <p class="text-lg">{{generatedQuery}}</p>
-    </div>
-  </form>
+    <button
+      type="button"
+      (click)="addField()"
+      class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600"
+    >
+      Add Field
+    </button>
+  </div>
+
+  <!-- Joins Component -->
+ <div class="mb-4 mx-4">
+  <app-join-query
+    [joins]="query.joins"
+    (joinsChange)="query.joins = $event"
+  ></app-join-query>
+
+  <!-- Filters Component -->
+  <app-filters
+    [filters]="query.filters"
+    (filtersChange)="query.filters = $event"
+  ></app-filters>
+
+  <!-- Sort Component -->
+  <app-sort
+    [orderBy]="query.orderBy"
+    (orderByChange)="query.orderBy = $event"
+  ></app-sort>
+
+  <!-- Limit Component -->
+  <app-limit
+    [limit]="query.limit"
+    (limitChange)="query.limit = $event"
+  ></app-limit>
+
+  <!-- Generate Query Component -->
+  <app-query-generate-button
+    (generate)="generateQuery()"
+  ></app-query-generate-button>
+</div>
+
+
+<!-- Display Generated Query -->
+  <div *ngIf="generatedQuery" class="mt-6 p-4 bg-gray-100 border rounded">
+    <h4 class="text-lg font-bold text-green-600">Generated Query</h4>
+    <pre>{{ generatedQuery }}</pre>
+  </div>
 </div>

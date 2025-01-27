@@ -1,82 +1,76 @@
-<div class="query-form font-serif p-6">
-  <h3 class="text-xl my-6 font-bold text-center">INSERT QUERIES</h3>
-  <form (ngSubmit)="onSubmit()">
-    <div class="m-4 px-4">
-      <label for="table" class="font-bold text-lg block mb-2"
-        >Table Name <span class="text-red-500">*</span></label
-      >
-      <input
-        id="table"
-        [(ngModel)]="query.table"
-        name="table"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
-        placeholder="Enter table name"
-        required
-      />
-    </div>
+<div class="m-2">
+  <h2 class="text-xl font-bold my-6 text-center">INSERT QUERY</h2>
 
-    <div class="mb-4 mx-4 px-4">
-      <label class="block font-bold text-lg mb-2">Fields and Values</label>
-      <div *ngFor="let field of query.fields; let i = index" class="mb-2 pb-2">
-        <div class="flex items-center gap-4">
-          <!-- Field Name -->
-          <label class="block font-bold mb-2"
-            >Field <span class="text-red-500">*</span></label
-          >
-          <input
-            type="text"
-            [(ngModel)]="field.name"
-            name="fieldName{{ i }}"
-            class="h-8 input w-1/3 p-2 border border-gray-900 rounded-lg"
-            placeholder="Field Name separated by commas"
-            required
-          />
-          <!-- Field Value -->
-          <label class="block font-bold mb-2"
-            >Value <span class="text-red-500">*</span></label
-          >
-          <input
-            type="text"
-            [(ngModel)]="field.value"
-            name="fieldValue{{ i }}"
-            class="input h-8 w-1/3 p-2 border border-gray-900 rounded-lg"
-            placeholder="Value separated by commas"
-            required
-          />
-          <button
-            type="button"
-            (click)="removeField(i)"
-            class="bg-red-500 text-white w-auto px-3 py-1 rounded hover:bg-red-600"
-          >
-            Remove
-          </button>
-        </div>
+  <!-- Table Name Component -->
+  <div class="w-1/4 mb-4 mx-4">
+    <app-table-name
+      [table]="query.table"
+      (tableChange)="query.table = $event"
+      class="w-1/2 mx-auto"
+    ></app-table-name>
+  </div>
+
+  <!-- Columns Section -->
+  <div class="mb-4 mx-4">
+    <h3 class="text-lg font-semibold mb-2">Columns</h3>
+    <div
+      *ngFor="let column of query.columns; let i = index"
+      class="flex flex-wrap items-center gap-4 mb-2"
+    >
+      <!-- Column Name -->
+      <div class="flex items-center gap-2 w-full md:w-1/3">
+        <label class="whitespace-nowrap">Column Name:</label>
+        <input
+          type="text"
+          [(ngModel)]="column.name"
+          name="columnName{{ i }}"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
+          placeholder="Column name"
+        />
       </div>
+
+      <!-- Column Value -->
+      <div class="flex items-center gap-2 w-full md:w-1/3">
+        <label class="whitespace-nowrap">Value:</label>
+        <input
+          type="text"
+          [(ngModel)]="column.value"
+          name="columnValue{{ i }}"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
+          placeholder="Value"
+        />
+      </div>
+
+      <!-- Remove Button -->
       <button
         type="button"
-        (click)="addField()"
-        class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+        (click)="removeColumn(i)"
+        class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
       >
-        Add Field
+        Remove
       </button>
     </div>
-    <!-- Query Preview -->
-    <div
-      *ngIf="query.table && query.fields.length > 0"
-      class="text-center mb-4"
+
+    <!-- Add Column Button -->
+    <button
+      type="button"
+      (click)="addColumn()"
+      class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600"
     >
-      <h4 class="text-lg font-bold mb-4 text-green-700">QUERY PREVIEW</h4>
-      <p class="text-lg">
-        INSERT INTO <strong>{{ query.table }}</strong> (
-        <span *ngFor="let field of query.fields; let i = index">
-          {{ field.name }}<span *ngIf="i < query.fields.length - 1">, </span>
-        </span>
-        ) VALUES (
-        <span *ngFor="let field of query.fields; let i = index">
-          '{{ field.value }}'<span *ngIf="i < query.fields.length - 1">, </span>
-        </span>
-        )
-      </p>
-    </div>
-  </form>
+      Add Column
+    </button>
+  </div>
+<div class="mb-4 mx-4">
+  <!-- Generate Query Button -->
+  <app-query-generate-button
+    (generate)="generateQuery()"
+  ></app-query-generate-button>
 </div>
+
+  <!-- Display Generated Query -->
+  <div *ngIf="generatedQuery" class="mt-6 p-4 bg-gray-100 border rounded">
+    <h4 class="text-lg font-bold text-green-600">Generated Query</h4>
+    <pre>{{ generatedQuery }}</pre>
+  </div>
+</div>
+

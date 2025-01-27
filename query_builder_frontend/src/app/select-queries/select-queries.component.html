@@ -1,236 +1,86 @@
-<div class="select-form font-serif p-6">
-  <h3 class="text-xl my-6 font-bold text-center">SELECT QUERIES</h3>
-  <form (ngSubmit)="onSubmit()">
-    <div class="m-4 px-4">
-      <div class="flex flex-wrap gap-4">
-        <label for="table" class="block font-bold text-lg mb-2"
-          >Table Name <span class="text-red-600">*</span></label
-        >
-        <input
-          id="table"
-          [(ngModel)]="query.table"
-          name="table"
-          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
-          placeholder="Enter table name"
-          required
-        />
-        <div *ngIf="!query.table && submitted" class="text-red-500 mt-1">
-          Table name is required
-        </div>
+<div class="m-2">
+  <h2 class="text-xl font-bold my-6 text-center">SELECT QUERY</h2>
 
-        <label for="alias" class="block font-bold text-lg mb-2"
-          >Table Alias</label
-        >
-        <input
-          id="alias"
-          name="alias"
-          [(ngModel)]="query.alias"
-          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
-          placeholder="Enter table alias (optional)"
-          required
-        />
-      </div>
-    </div>
-   
-    <!-- Fields to Select -->
-    <div class="mb-4 mx-4 px-4">
-      <label for="fields" class="block font-bold text-lg mb-2"
-        >Fields to Select</label
-      >
+  <!-- Table Name and Alias Section -->
+  <div class="w-full flex flex-wrap gap-4 mb-4 mx-4">
+    <app-table-name
+      [table]="query.table"
+      (tableChange)="query.table = $event"
+      class="w-1/4"
+    ></app-table-name>
+
+    <app-table-alias
+      [alias]="query.alias"
+      (aliasChange)="query.alias = $event"
+      class="w-1/4"
+    ></app-table-alias>
+  </div>
+
+  <!-- Columns Section -->
+  <div class="mb-4 mx-4">
+    <h3 class="text-lg font-semibold mb-2">Columns</h3>
+    <div
+      *ngFor="let column of query.columns; let i = index"
+      class="flex flex-wrap items-center gap-4 mb-2"
+    >
       <input
-        id="fields"
-        [(ngModel)]="query.fields"
-        name="fields"
-        class="border border-gray-900 rounded-lg focus:riing-blue-500 focus:border-blue-500 block w-2/4 h-8 p-2.5"
-        placeholder="Enter fields as comma-separated (e.g., id, name)"
+        type="text"
+        [(ngModel)]="query.columns[i]"
+        name="column{{ i }}"
+        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full md:w-2/3"
+        placeholder="Column name"
       />
-    </div>
-
-    <!-- Joins -->
-    <div class="mb-4 mx-4 px-4">
-      <label class="block font-bold text-lg mb-2">Joins</label>
-      <div *ngFor="let join of query.joins; let i = index" class="mb-2">
-<div class="flex flex-wrap gap-4">
-        <label for="joinType{{i}}" class="block font-bold text-lg mb-2"
-          >Type of Join</label
-        >
-        <select
-          [(ngModel)]="join.type"
-          name="joinType{{ i }}"
-          required
-          class="mb-4 border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1"
-        >
-          <option value="INNER">INNER JOIN</option>
-          <option value="LEFT">LEFT JOIN</option>
-          <option value="RIGHT">RIGHT JOIN</option>
-          <option value="FULL">FULL JOIN</option>
-        </select>
-</div>
-        <div class="flex flex-wrap gap-4 items-center w-full">
-          <label for="JoinTable{{i}}" class="block font-medium text-lg mb-2"
-            >Table</label
-          >
-          <input
-            type="text"
-            [(ngModel)]="join.table"
-            name="joinTable{{ i }}"
-            required
-            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5"
-            placeholder="Join table name"
-          />
-          <label for="alias{{i}}" class="block mb-2 font-medium text-lg"
-            >Alias</label
-          >
-          <input
-            type="text"
-            [(ngModel)]="join.alias"
-            name="alias{{i}}"
-            placeholder="Alias (optional)"
-            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5"
-          />
-          <label for="joinOn{{i}]" class="block font-medium text-lg mb-2"
-            >ON</label
-          >
-          <input
-            type="text"
-            [(ngModel)]="join.on"
-            name="joinOn{{ i }}"
-            required
-            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8  p-2.5"
-            placeholder="e.g., a.id = b.ref_id"
-          />
-          <button
-            type="button"
-            (click)="removeJoin(i)"
-            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-          >
-            Remove
-          </button>
-        </div>
-      </div>
       <button
         type="button"
-        (click)="addJoin()"
-        class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600 mt-2"
+        (click)="removeColumn(i)"
+        class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
       >
-        Add Join
+        Remove
       </button>
     </div>
+    <button
+      type="button"
+      (click)="addColumn()"
+      class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600"
+    >
+      Add Column
+    </button>
+  </div>
 
-    <!--WHERE clause-->
-    <div class="mb-4 mx-4 px-4">
-      <label class="block font-bold text-lg mb-2">Filters (WHERE Clause)</label>
-      <div *ngFor="let filter of query.filters; let i = index" class="mb-2">
-        <div class="flex items-center gap-4 mb-4">
-          <input
-            type="text"
-            [(ngModel)]="filter.field"
-            name="filterField{{ i }}"
-            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
-            placeholder="Field"
-          />
-          <select
-            [(ngModel)]="filter.operator"
-            name="filterOperator{{ i }}"
-            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-1"
-          >
-            <option value="" disabled selected hidden>Choose a operator</option>
+  <!-- Joins Component -->
+  <div class="mb-4 mx-4">
+    <app-join-query
+      [joins]="query.joins"
+      (joinsChange)="query.joins = $event"
+    ></app-join-query>
 
-            <option value="=">=</option>
-            <option value="!=">!=</option>
-            <option value=">">&gt;</option>
-            <option value="<">&lt;</option>
-            <option value=">=">&gt;=</option>
-            <option value="<=">&lt;=</option>
-            <option value="LIKE">LIKE</option>
-            <option value="IS NULL">IS NULL</option>
-            <option value="IS NOT NUL">IS NOT NULL</option>
-          </select>
-          <input
-            type="text"
-            [(ngModel)]="filter.value"
-            name="filterValue{{ i }}"
-            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
-            placeholder="Value"
-          />
-          <select
-            [(ngModel)]="filter.condition"
-            name="filterCondition{{i}}"
-            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-1"
-          >
-            <option value="" disabled selected hidden>
-              Choose a condition
-            </option>
-            <option value="AND">AND</option>
-            <option value="OR">OR</option>
-          </select>
+    <!-- Filters Component -->
+    <app-filters
+      [filters]="query.filters"
+      (filtersChange)="query.filters = $event"
+    ></app-filters>
 
-          <button
-            type="button"
-            (click)="removeFilter(i)"
-            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-          >
-            Remove
-          </button>
-        </div>
-      </div>
-      <button
-        type="button"
-        (click)="addFilter()"
-        class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600"
-      >
-        Add Filter
-      </button>
-    </div>
-    <!--ORDER BY-->
-    <div class="mb-4 mx-4 px-4">
-      <label class="block font-bold text-lg mb-2">Sort By (ORDER BY)</label>
-      <div class="flex items-center gap-4">
-        <input
-          type="text"
-          [(ngModel)]="query.orderBy.field"
-          name="orderByField"
-          class="border border-gray-900 rounded-lg focus:ring-blur-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
-          placeholder="Field to sort by"
-        />
-        <select
-          [(ngModel)]="query.orderBy.direction"
-          name="orderByDirection"
-          class="border border-gray-900 rounded-lg focus:ring-blur-500 focus:border-blue-500 block w-1/4 h-8 p-1"
-        >
-          <option value="ASC">Ascending</option>
-          <option value="DESC">Descending</option>
-        </select>
-      </div>
-    </div>
+    <!-- Sort Component -->
+    <app-sort
+      [orderBy]="query.orderBy"
+      (orderByChange)="query.orderBy = $event"
+    ></app-sort>
 
-    <!-- Limit -->
-    <div class="mb-4 mx-4 px-4">
-      <label for="limit" class="block font-bold text-lg mb-2">Limit</label>
-      <input
-        type="number"
-        id="limit"
-        [(ngModel)]="query.limit"
-        name="limit"
-        class="border border-gray-900 rounded-lg focus:ring-blur-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
-        placeholder="Maximum number of records"
-        min="1"
-      />
-    </div>
+    <!-- Limit Component -->
+    <app-limit
+      [limit]="query.limit"
+      (limitChange)="query.limit = $event"
+    ></app-limit>
 
-    <div class="mb-4 mx-4 px-4">
-      <button
-        type="submit"
-        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-      >
-        Generate Query
-      </button>
-    </div>
+    <!-- Generate Query Button -->
+    <app-query-generate-button
+      (generate)="generateQuery()"
+    ></app-query-generate-button>
+  </div>
 
-    <!-- Query preview -->
-    <div *ngIf="generatedQuery" class="mb-4 text-center">
-      <h4 class="font-bold text-lg mb-4 text-green-700">QUERY PREVIEW</h4>
-      <p class="text-lg">{{generatedQuery}}</p>
-    </div>
-  </form>
+  <!-- Display Generated Query -->
+  <div *ngIf="generatedQuery" class="mt-6 p-4 bg-gray-100 border rounded">
+    <h4 class="text-lg font-bold text-green-600">Generated Query</h4>
+    <pre>{{ generatedQuery }}</pre>
+  </div>
 </div>

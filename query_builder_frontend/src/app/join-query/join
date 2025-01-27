@@ -1,0 +1,71 @@
+  <!-- Joins-->
+    <div class="mb-4 mx-4 px-4">
+      <label class="block font-bold text-lg mb-2">Joins</label>
+      <div *ngFor="let join of query.joins; let i = index" class="mb-2">
+<div class="flex flex-wrap gap-4">
+        <label for="joinType{{i}}" class="block font-bold text-lg mb-2"
+          >Type of Join</label
+        >
+        <select
+          [(ngModel)]="join.type"
+          name="joinType{{ i }}"
+          required
+          class="mb-4 border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1"
+        >
+          <option value="INNER">INNER JOIN</option>
+          <option value="LEFT">LEFT JOIN</option>
+          <option value="RIGHT">RIGHT JOIN</option>
+          <option value="FULL">FULL JOIN</option>
+        </select>
+</div>
+        <div class="flex flex-wrap gap-4 items-center w-full">
+          <label for="JoinTable{{i}}" class="block font-medium text-lg mb-2"
+            >Table</label
+          >
+
+ <input
+            type="text"
+            [(ngModel)]="join.table"
+            name="joinTable{{ i }}"
+            required
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5"
+            placeholder="Join table name"
+          />
+          <label for="alias{{i}}" class="block mb-2 font-medium text-lg"
+            >Alias</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="join.alias"
+            name="alias{{i}}"
+            placeholder="Alias (optional)"
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5"
+          />
+          <label for="joinOn{{i}]" class="block font-medium text-lg mb-2"
+            >ON</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="join.on"
+            name="joinOn{{ i }}"
+            required
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8  p-2.5"
+            placeholder="e.g., a.id = b.ref_id"
+          />
+          <button
+            type="button"
+            (click)="removeJoin(i)"
+ class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+      <button
+        type="button"
+        (click)="addJoin()"
+        class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600 mt-2"
+      >
+        Add Join
+      </button>
+    </div>

@@ -1,5 +1,6 @@
-<div class="font-serif container flex">
-  <div class="sidebar w-1/4 bg-gray-200 p-4 h-screen">
+<div class="font-serif flex w-screen h-screen">
+  <!-- Sidebar -->
+  <div class="sidebar w-1/6 bg-gray-200 p-4">
     <h1 class="text-2xl font-bold mb-4">QUERY BUILDER</h1>
     <ul class="space-y-3">
       <li>
@@ -14,7 +15,7 @@
       <li>
         <button
           (click)="selectPage('select')"
-          [ngClass]="{'bg-gray-400':currentPage==='select'}"
+          [ngClass]="{'bg-gray-400': currentPage === 'select'}"
           class="w-full text-left py-2 px-4 hover:bg-gray-400 text-lg"
         >
           Select Queries
@@ -23,7 +24,7 @@
       <li>
         <button
           (click)="selectPage('insert')"
-          [ngClass]="{'bg-gray-400' : currentPage==='insert'}"
+          [ngClass]="{'bg-gray-400' : currentPage === 'insert'}"
           class="w-full text-left py-2 px-4 hover:bg-gray-400 text-lg"
         >
           Insert Queries
@@ -32,7 +33,7 @@
       <li>
         <button
           (click)="selectPage('update')"
-          [ngClass]="{'bg-gray-400':currentPage==='update'}"
+          [ngClass]="{'bg-gray-400': currentPage === 'update'}"
           class="w-full text-left py-2 px-4 hover:bg-gray-400 text-lg"
         >
           Update Queries
@@ -41,7 +42,7 @@
       <li>
         <button
           (click)="selectPage('delete')"
-          [ngClass]="{'bg-gray-400':currentPage==='delete'}"
+          [ngClass]="{'bg-gray-400': currentPage === 'delete'}"
           class="w-full text-left py-2 px-4 hover:bg-gray-400 text-lg"
         >
           Delete Queries
@@ -49,24 +50,24 @@
       </li>
     </ul>
   </div>
-  <div class="main-content w-screen">
+
+  <!-- Main Content -->
+  <div class="main-content flex-1 bg-gray-100 p-4 overflow-hidden">
     <div *ngIf="currentPage === 'create'">
       <app-create-queries></app-create-queries>
     </div>
-
     <div *ngIf="currentPage === 'select'">
       <app-select-queries></app-select-queries>
     </div>
     <div *ngIf="currentPage === 'insert'">
       <app-insert-queries></app-insert-queries>
     </div>
-
     <div *ngIf="currentPage === 'update'">
       <app-update-queries></app-update-queries>
     </div>
-
     <div *ngIf="currentPage === 'delete'">
       <app-delete-queries></app-delete-queries>
     </div>
   </div>
 </div>
+
