@@ -29,48 +29,42 @@ export class SelectQueriesComponent {
   query = {
     table: '',
     alias: '',
-    columns: ['*'],
+    columns: [{name:'*'}],
     joins: [{ type: 'INNER', table: '', alias: '', on: '' }],
     filters: [{ field: '', operator: '=', value: '', condition: 'AND' }],
     orderBy: { field: '', direction: 'ASC' },
     limit: '',
   };
 
-  // Add a new column to the columns array
   addColumn() {
-    this.query.columns.push('');
+    this.query.columns.push({name:''});
   }
 
-  // Remove a column by index
   removeColumn(index: number) {
     this.query.columns.splice(index, 1);
   }
 
-  // Define 'generatedQuery' to store the generated query string
   generatedQuery: string = '';
 
   generateQuery() {
-    // Validate table name
     if (!this.query.table) {
       alert('Please provide a table name.');
       return;
     }
 
-    // Handle table with alias
     const table = `${this.query.table}${
       this.query.alias ? ` AS ${this.query.alias}` : ''
     }`;
 
-    // Select columns
     const columns = this.query.columns
-      .filter((col) => col.trim() !== '')
+      .filter((col) => col.name.trim() !== '')
+      .map((col)=>col.name)
       .join(', ');
     const selectColumns = columns || '*';
 
-    // Joins with alias
     const joins = this.query.joins
-      .filter((join) => join.table && join.on)
-      .map(
+    .filter((join) => join.table && join.on)
+    .map(
         (join) =>
           `${join.type} JOIN ${join.table}${
             join.alias ? ` AS ${join.alias}` : ''
@@ -78,22 +72,18 @@ export class SelectQueriesComponent {
       )
       .join(' ');
 
-    // Filters for WHERE clause
     const filters = this.query.filters
       .filter((filter) => filter.field && filter.value)
       .map((filter) => `${filter.field} ${filter.operator} '${filter.value}'`)
       .join(' AND ');
     const whereClause = filters ? `WHERE ${filters}` : '';
 
-    // ORDER BY clause
     const orderByClause = this.query.orderBy?.field
       ? `ORDER BY ${this.query.orderBy.field} ${this.query.orderBy.direction}`
       : '';
 
-    // LIMIT clause
     const limitClause = this.query.limit ? `LIMIT ${this.query.limit}` : '';
 
-    // Generate the full query string
     this.generatedQuery =
       `SELECT ${selectColumns} FROM ${table} ${joins} ${whereClause} ${orderByClause} ${limitClause}`.trim();
 
