@@ -10,8 +10,9 @@
         type="text"
         [(ngModel)]="tableName"
         name="tableName"
-        class="mb-4 border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
+        class="mb-4 border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 h-8 p-2.5"
         required
+        placeholder="Enter table name"
       />
 
       <div class="mb-4">
@@ -22,29 +23,31 @@
         <!-- Dynamic Columns -->
         <div
           *ngFor="let column of columns; let i = index"
-          class="columns-container mx-auto flex flex-nowrap gap-4 justify-between items-center"
+          class="columns-container mx-auto flex flex-nowrap gap-4 justify-between items-center mb-4"
         >
-          <div class="column w-1/6">
+          <div class="column w-1/8">
             <label class="block text-md font-medium" for="column-name"
               >Name <span class="text-red-500">*</span></label
             >
             <input
               [(ngModel)]="column.name"
               name="name{{i}}"
-              class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-2.5"
+              class="border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-2.5"
               required
+              placeholder="Enter column name"
             />
           </div>
 
-          <div class="column w-1/6">
+          <div class="column w-1/8">
             <label class="block text-md font-medium" for="column-type"
               >Type <span class="text-red-500">*</span></label
             >
             <select
               [(ngModel)]="column.type"
               name="type{{i}}"
-              class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-1"
+              class="border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-1"
             >
+              <option value="" disabled>Choose a data type</option>
               <option value="bigint">Bigint</option>
               <option value="bigserial">Big Serialt</option>
               <option value="boolean">Boolean</option>
@@ -82,7 +85,7 @@
             </select>
           </div>
 
-          <div class="column w-1/6">
+          <div class="column w-1/8">
             <label class="block text-md font-medium" for="column-length"
               >Length</label
             >
@@ -90,11 +93,14 @@
               [(ngModel)]="column.length"
               name="length{{i}}"
               type="number"
-              class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-2.5"
+              class="border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-2.5"
+              placeholder="Enter length"
             />
           </div>
 
-          <div class="column w-1/6">
+          <div
+            class="column w-1/10 flex flex-wrap gap-2 items-center justify-center pt-5"
+          >
             <label class="block text-md font-medium" for="column-not-null"
               >Not Null</label
             >
@@ -106,7 +112,9 @@
             />
           </div>
 
-          <div class="column w-1/6">
+          <div
+            class="column w-1/10 flex flex-wrap gap-2 items-center justify-center pt-5"
+          >
             <label class="block text-md font-medium" for="column-primary-key"
               >Primary Key</label
             >
@@ -118,7 +126,9 @@
             />
           </div>
 
-          <div class="column w-1/6">
+          <div
+            class="column w-1/10 flex flex-wrap gap-2 items-center justify-center pt-5"
+          >
             <label class="block text-md font-medium" for="column-unique"
               >Unique</label
             >
@@ -129,42 +139,39 @@
               class="h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500"
             />
           </div>
-          <div class="column w-1/6">
-            <button
-              type="button"
+          <div class="column w-1/12 flex flex-wrap gap-2 items-center pt-5">
+            <img
+              src="remove.svg"
               (click)="removeColumn()"
-              class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-            >
-              Remove
-            </button>
+              class="cursor-pointer w-8 h-8 hover:opacity-80"
+            />
           </div>
         </div>
       </div>
-
-      <div class="mb-4">
-        <button
-          type="button"
-          (click)="addColumn()"
-          class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600"
-        >
-          Add Columnn
-        </button>
-      </div>
     </div>
 
-    <div class="mb-4 mx-4">
+    <div class="mb-4 mt-2 flex flex-wrap gap-4 mx-4 justify-center">
+      <button
+        type="button"
+        (click)="addColumn()"
+        class="bg-[#7E60BF] max-w-md w-full text-white px-3 py-1 rounded-lg hover:bg-[#433878]"
+      >
+        + Add Column
+      </button>
+    </div>
+    <div class="flex justify-center mt-2 mb-4">
       <button
         type="submit"
-        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        class="bg-[#5C4B99] text-white px-4 py-2 rounded-lg hover:bg-[#3D246C]"
       >
         Generate Query
       </button>
     </div>
     <div
       *ngIf="generatedQuery"
-      class="mt-6 p-4 bg-gray-100 border text-center bg-gray-200 rounded"
+      class="my-6 p-4 border text-center bg-[#5C4B99] text-white rounded-xl"
     >
-      <h4 class="text-lg font-bold text-green-700 mb-2">GENERATED QUERY</h4>
+      <h4 class="text-lg font-bold text-[#5C4B99]-700 mb-2">GENERATED QUERY</h4>
       <pre>{{ generatedQuery }}</pre>
     </div>
   </form>

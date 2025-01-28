@@ -10,7 +10,7 @@
       <select
         [(ngModel)]="join.type"
         (ngModelChange)="onJoinChange()"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+        class="border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
       >
         <option value="INNER">INNER</option>
         <option value="LEFT">LEFT</option>
@@ -27,7 +27,7 @@
         [(ngModel)]="join.table"
         (ngModelChange)="onJoinChange()"
         name="JoinTable{{ i }}"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+        class="border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
         placeholder="Enter table name"
       />
     </div>
@@ -40,7 +40,7 @@
         [(ngModel)]="join.alias"
         (ngModelChange)="onJoinChange()"
         name="JoinAlias{{ i }}"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+        class="border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
         placeholder="Enter table alias"
       />
     </div>
@@ -53,23 +53,24 @@
         [(ngModel)]="join.on"
         (ngModelChange)="onJoinChange()"
         name="JoinOn{{ i }}"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+        class="border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
         placeholder="e.g., a.id = b.ref"
       />
     </div>
 
     <!-- Remove Button -->
-    <button
-      class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-      (click)="removeJoin(i)"
-    >
-      Remove
-    </button>
+    <img
+    src="remove.svg"
+    (click)="removeJoin(i)"
+      class="cursor-pointer w-8 h-8 hover:opacity-80"
+    />
   </div>
 
   <!-- Add Join Button -->
-  <button class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600" (click)="addJoin()">
-    Add Join
+  <button 
+  class="bg-[#7E60BF] w-1/5 text-white px-3 py-1 rounded-lg hover:bg-[#433878]"
+  (click)="addJoin()">
+    + Add Join
   </button>
 </div>
 

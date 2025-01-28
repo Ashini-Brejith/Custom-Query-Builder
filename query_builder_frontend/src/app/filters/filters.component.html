@@ -11,18 +11,17 @@
         type="text"
         [(ngModel)]="filter.field"
         name="FilterField{{i}}"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2 w-full"
+        class="border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2 w-full"
         placeholder="Enter field name"
       />
     </div>
 
-    <!-- Operator Section -->
     <div class="flex items-center gap-2 w-full md:w-1/5">
       <label class="whitespace-nowrap">Operator:</label>
       <select
         [(ngModel)]="filter.operator"
         name="FilterOperator{{i}}"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+        class="border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
       >
         <option value="=">=</option>
         <option value="!=">!=</option>
@@ -39,7 +38,7 @@
         type="text"
         [(ngModel)]="filter.value"
         name="FilterValue{{i}}"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2 w-full"
+        class="border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2 w-full"
         placeholder="Enter value"
       />
     </div>
@@ -50,7 +49,7 @@
       <select
         [(ngModel)]="filter.condition"
         name="FilterCondition{{i}}"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+        class="border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
       >
         <option value="AND">AND</option>
         <option value="OR">OR</option>
@@ -58,20 +57,19 @@
     </div>
 
     <!-- Remove Button -->
-    <button
-      class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-      (click)="removeFilter(i)"
-    >
-      Remove
-    </button>
+    <img
+            src="remove.svg"
+            (click)="removeFilter(i)"
+              class="cursor-pointer w-8 h-8 hover:opacity-80"
+            />
   </div>
 
   <!-- Add Filter Button -->
   <button
-    class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600"
-    (click)="addFilter()"
+  class="bg-[#7E60BF] w-1/5 text-white px-3 py-1 rounded-lg hover:bg-[#433878]"
+  (click)="addFilter()"
   >
-    Add Filter
+    + Add Filter
   </button>
 </div>
 

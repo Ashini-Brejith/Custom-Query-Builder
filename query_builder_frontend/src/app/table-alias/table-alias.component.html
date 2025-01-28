@@ -1,11 +1,11 @@
 <div>
-  <label for="alias" class="block font-bold text-lg mb-2">Table Alias</label>
+  <label for="alias" class="block font-bold text-lg mb-2">Table Alias <span class="text-md font-semibold">(optional)</span></label>
   <input
     id="alias"
     name="alias"
     [(ngModel)]="alias"
     (ngModelChange)="onAliasChange($event)"
-    class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-2.5"
+    class="border-2 border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 p-2.5"
     placeholder="Enter table alias (optional)"
     required
   />
