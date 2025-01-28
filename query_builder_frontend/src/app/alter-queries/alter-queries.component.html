@@ -22,7 +22,6 @@
           class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-1/4"
           placeholder="New Column Name"
         />
-      
 
         <label>Column Type:</label>
         <input
@@ -63,10 +62,11 @@
       (generate)="generateQuery()"
     ></app-query-generate-button>
   </div>
-
-  <div *ngIf="generatedQuery" class="mt-6 p-4 bg-gray-100 border rounded">
-    <h4 class="text-lg font-bold text-green-600">Generated Query</h4>
+  <div
+    *ngIf="generatedQuery"
+    class="mt-6 p-4 bg-gray-100 border text-center bg-gray-200 rounded"
+  >
+    <h4 class="text-lg font-bold text-green-700 mb-2">GENERATED QUERY</h4>
     <pre>{{ generatedQuery }}</pre>
   </div>
 </div>
-

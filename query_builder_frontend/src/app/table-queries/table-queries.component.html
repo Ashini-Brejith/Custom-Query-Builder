@@ -4,7 +4,7 @@
   <div class="flex justify-center gap-6 mb-6">
     <button
       (click)="activeTab('create')"
-class="px-4 py-2 rounded-lg border"
+class="px-4 py-2 rounded-lg border border-gray-900"
 
           [ngClass]="{'bg-gray-400': currentTab === 'create'}"
     >
@@ -13,14 +13,14 @@ class="px-4 py-2 rounded-lg border"
     <button
       (click)="activeTab('alter')"
           [ngClass]="{'bg-gray-400': currentTab === 'alter'}"
-      class="px-4 py-2 rounded-lg border"
+      class="px-4 py-2 rounded-lg border border-gray-900"
     >
       Alter Table
     </button>
     <button
       (click)="activeTab('drop')"
           [ngClass]="{'bg-gray-400': currentTab === 'drop'}"
-      class="px-4 py-2 rounded-lg border"
+      class="px-4 py-2 rounded-lg border border-gray-900"
     >
       Drop Table
     </button>

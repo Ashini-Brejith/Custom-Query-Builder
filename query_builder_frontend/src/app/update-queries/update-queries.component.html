@@ -61,47 +61,43 @@
     <button
       type="button"
       (click)="addField()"
-      class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600"
+      class="mt-2 bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600"
     >
       Add Field
     </button>
   </div>
 
-  <!-- Joins Component -->
- <div class="mb-4 mx-4">
-  <app-join-query
-    [joins]="query.joins"
-    (joinsChange)="query.joins = $event"
-  ></app-join-query>
+  <div class="mb-4 mx-4">
+    <app-join-query
+      [joins]="query.joins"
+      (joinsChange)="query.joins = $event"
+    ></app-join-query>
 
-  <!-- Filters Component -->
-  <app-filters
-    [filters]="query.filters"
-    (filtersChange)="query.filters = $event"
-  ></app-filters>
+    <app-filters
+      [filters]="query.filters"
+      (filtersChange)="query.filters = $event"
+    ></app-filters>
 
-  <!-- Sort Component -->
-  <app-sort
-    [orderBy]="query.orderBy"
-    (orderByChange)="query.orderBy = $event"
-  ></app-sort>
+    <app-sort
+      [orderBy]="query.orderBy"
+      (orderByChange)="query.orderBy = $event"
+    ></app-sort>
 
-  <!-- Limit Component -->
-  <app-limit
-    [limit]="query.limit"
-    (limitChange)="query.limit = $event"
-  ></app-limit>
+    <app-limit
+      [limit]="query.limit"
+      (limitChange)="query.limit = $event"
+    ></app-limit>
 
-  <!-- Generate Query Component -->
-  <app-query-generate-button
-    (generate)="generateQuery()"
-  ></app-query-generate-button>
-</div>
+    <app-query-generate-button
+      (generate)="generateQuery()"
+    ></app-query-generate-button>
+  </div>
 
-
-<!-- Display Generated Query -->
-  <div *ngIf="generatedQuery" class="mt-6 p-4 bg-gray-100 border rounded">
-    <h4 class="text-lg font-bold text-green-600">Generated Query</h4>
+  <div
+    *ngIf="generatedQuery"
+    class="mt-6 p-4 bg-gray-100 border text-center bg-gray-200 rounded"
+  >
+    <h4 class="text-lg font-bold text-green-700 mb-2">GENERATED QUERY</h4>
     <pre>{{ generatedQuery }}</pre>
   </div>
 </div>

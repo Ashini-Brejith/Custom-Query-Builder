@@ -1,7 +1,6 @@
 <div class="m-2">
   <h2 class="text-xl font-bold my-6 text-center">SELECT QUERY</h2>
 
-  <!-- Table Name and Alias Section -->
   <div class="w-full flex flex-wrap gap-4 mb-4 mx-4">
     <app-table-name
       [table]="query.table"
@@ -27,8 +26,8 @@
         type="text"
         [(ngModel)]="column.name"
         name="column{{ i }}"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full md:w-2/3"
-        placeholder="Column name"
+        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-1/4 mb-2"
+        placeholder="Column names separated by comma"
       />
       <button
         type="button"
@@ -47,40 +46,37 @@
     </button>
   </div>
 
-  <!-- Joins Component -->
   <div class="mb-4 mx-4">
     <app-join-query
       [joins]="query.joins"
       (joinsChange)="query.joins = $event"
     ></app-join-query>
 
-    <!-- Filters Component -->
     <app-filters
       [filters]="query.filters"
       (filtersChange)="query.filters = $event"
     ></app-filters>
 
-    <!-- Sort Component -->
     <app-sort
       [orderBy]="query.orderBy"
       (orderByChange)="query.orderBy = $event"
     ></app-sort>
 
-    <!-- Limit Component -->
     <app-limit
       [limit]="query.limit"
       (limitChange)="query.limit = $event"
     ></app-limit>
 
-    <!-- Generate Query Button -->
     <app-query-generate-button
       (generate)="generateQuery()"
     ></app-query-generate-button>
   </div>
 
-  <!-- Display Generated Query -->
-  <div *ngIf="generatedQuery" class="mt-6 p-4 bg-gray-100 border rounded">
-    <h4 class="text-lg font-bold text-green-600">Generated Query</h4>
+  <div
+    *ngIf="generatedQuery"
+    class="mt-6 p-4 bg-gray-100 border text-center bg-gray-200 rounded"
+  >
+    <h4 class="text-lg font-bold text-green-700 mb-2">GENERATED QUERY</h4>
     <pre>{{ generatedQuery }}</pre>
   </div>
 </div>

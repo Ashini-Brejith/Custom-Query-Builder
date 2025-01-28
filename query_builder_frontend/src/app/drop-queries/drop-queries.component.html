@@ -17,10 +17,11 @@
     ></app-query-generate-button>
   </div>
 
-  <!-- Display Generated Query -->
-  <div *ngIf="generatedQuery" class="mt-6 p-4 bg-gray-100 border rounded">
-    <h4 class="text-lg font-bold text-green-600">Generated Query</h4>
+  <div
+    *ngIf="generatedQuery"
+    class="mt-6 p-4 bg-gray-100 border text-center bg-gray-200 rounded"
+  >
+    <h4 class="text-lg font-bold text-green-700 mb-2">GENERATED QUERY</h4>
     <pre>{{ generatedQuery }}</pre>
   </div>
 </div>
-

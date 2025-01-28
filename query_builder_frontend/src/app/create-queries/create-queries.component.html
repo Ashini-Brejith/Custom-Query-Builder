@@ -1,7 +1,5 @@
-
 <div class="m-2">
-
-<h3 class="font-bold text-xl my-6 text-center">CREATE TABLE</h3>
+  <h3 class="font-bold text-xl my-6 text-center">CREATE TABLE</h3>
 
   <form (ngSubmit)="onSubmit()">
     <div class="mb-4 mx-4">
@@ -12,12 +10,9 @@
         type="text"
         [(ngModel)]="tableName"
         name="tableName"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
+        class="mb-4 border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
         required
       />
-      <!--<div *ngIf="!tableName && submitted" class="text-red-500 mt-1">
-        Table name is required
-      </div>-->
 
       <div class="mb-4">
         <label class="block text-lg font-bold mb-2" for="columns"
@@ -29,7 +24,7 @@
           *ngFor="let column of columns; let i = index"
           class="columns-container mx-auto flex flex-nowrap gap-4 justify-between items-center"
         >
-          <div class="column w-1/6 mb-4">
+          <div class="column w-1/6">
             <label class="block text-md font-medium" for="column-name"
               >Name <span class="text-red-500">*</span></label
             >
@@ -41,7 +36,7 @@
             />
           </div>
 
-          <div class="column w-1/6 mb-4">
+          <div class="column w-1/6">
             <label class="block text-md font-medium" for="column-type"
               >Type <span class="text-red-500">*</span></label
             >
@@ -87,7 +82,7 @@
             </select>
           </div>
 
-          <div class="column w-1/6 mb-4">
+          <div class="column w-1/6">
             <label class="block text-md font-medium" for="column-length"
               >Length</label
             >
@@ -99,7 +94,7 @@
             />
           </div>
 
-          <div class="column w-1/6 mb-4">
+          <div class="column w-1/6">
             <label class="block text-md font-medium" for="column-not-null"
               >Not Null</label
             >
@@ -111,7 +106,7 @@
             />
           </div>
 
-          <div class="column w-1/6 mb-4">
+          <div class="column w-1/6">
             <label class="block text-md font-medium" for="column-primary-key"
               >Primary Key</label
             >
@@ -123,7 +118,7 @@
             />
           </div>
 
-          <div class="column w-1/6 mb-4">
+          <div class="column w-1/6">
             <label class="block text-md font-medium" for="column-unique"
               >Unique</label
             >
@@ -134,7 +129,7 @@
               class="h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500"
             />
           </div>
-          <div class="column w-1/6 mb-4">
+          <div class="column w-1/6">
             <button
               type="button"
               (click)="removeColumn()"
@@ -165,9 +160,11 @@
         Generate Query
       </button>
     </div>
-
-    <div *ngIf="generatedQuery" class="mt-6 p-4 bg-gray-100 border rounded">
-      <h4 class="text-lg font-bold text-green-600">Generated Query</h4>
+    <div
+      *ngIf="generatedQuery"
+      class="mt-6 p-4 bg-gray-100 border text-center bg-gray-200 rounded"
+    >
+      <h4 class="text-lg font-bold text-green-700 mb-2">GENERATED QUERY</h4>
       <pre>{{ generatedQuery }}</pre>
     </div>
   </form>

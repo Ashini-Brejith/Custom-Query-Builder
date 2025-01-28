@@ -9,7 +9,6 @@
       class="w-1/4"
     ></app-table-name>
 
-    <!-- Table Alias Component -->
     <app-table-alias
       [alias]="query.alias"
       (aliasChange)="query.alias = $event"
@@ -17,41 +16,37 @@
     ></app-table-alias>
   </div>
 
-  <!-- Filters Component -->
   <div class="mb-4 mx-4">
     <app-filters
       [filters]="query.filters"
       (filtersChange)="query.filters = $event"
     ></app-filters>
 
-  <!-- Joins Component (Optional) -->
     <app-join-query
       [joins]="query.joins"
       (joinsChange)="query.joins = $event"
     ></app-join-query>
 
-  <!-- Sort Component (Optional) -->
     <app-sort
       [orderBy]="query.orderBy"
       (orderByChange)="query.orderBy = $event"
     ></app-sort>
 
-  <!-- Limit Component -->
     <app-limit
       [limit]="query.limit"
       (limitChange)="query.limit = $event"
     ></app-limit>
 
-  <!-- Generate Query Component -->
     <app-query-generate-button
       (generate)="generateQuery()"
     ></app-query-generate-button>
   </div>
 
-  <!-- Display Generated Query -->
-  <div *ngIf="generatedQuery" class="mt-6 p-4 bg-gray-100 border rounded">
-    <h4 class="text-lg font-bold text-green-600">Generated Query</h4>
+  <div
+    *ngIf="generatedQuery"
+    class="mt-6 p-4 bg-gray-100 border text-center bg-gray-200 rounded"
+  >
+    <h4 class="text-lg font-bold text-green-700 mb-2">GENERATED QUERY</h4>
     <pre>{{ generatedQuery }}</pre>
   </div>
 </div>
-
