@@ -34,7 +34,6 @@ export class DeleteQueriesComponent {
     orderBy: { field: '', direction: 'ASC' },
   };
 
-  // Define 'generatedQuery' to store the generated query string
   generatedQuery: string = '';
 
   generateQuery() {
@@ -44,14 +43,12 @@ export class DeleteQueriesComponent {
       return;
     }
 
-    // Handle table with alias
     const table = `${this.query.table}${
       this.query.alias ? ` AS ${this.query.alias}` : ''
     }`;
 
-    // Joins with alias
     const joins = this.query.joins
-      .filter((join) => join.table && join.on) // Ensure joins have necessary values
+      .filter((join) => join.table && join.on)
       .map(
         (join) =>
           `${join.type} JOIN ${join.table}${
@@ -60,22 +57,24 @@ export class DeleteQueriesComponent {
       )
       .join(' ');
 
-    // Filters for WHERE clause
-    const filters = this.query.filters
-      .filter((filter) => filter.field && filter.value) 
-      .map((filter) => `${filter.field} ${filter.operator} '${filter.value}'`)
-      .join(' AND ');
-    const whereClause = filters ? `WHERE ${filters}` : '';
+     const filters = this.query.filters
+    .filter((filter) => filter.field && filter.value)
+    .map(
+      (filter, index, filteredFilters) => {
+        const condition = index < filteredFilters.length - 1 ? ` ${filter.condition}` : '';
+        return `${filter.field} ${filter.operator} '${filter.value}'${condition}`;
+      }
+    )
+    .join(' ');
 
-    // ORDER BY clause
+  const whereClause = filters ? `WHERE ${filters}` : '';
+
     const orderByClause = this.query.orderBy?.field
       ? `ORDER BY ${this.query.orderBy.field} ${this.query.orderBy.direction}`
       : '';
 
-    // LIMIT clause
     const limitClause = this.query.limit ? `LIMIT ${this.query.limit}` : '';
 
-    // Generate the full query string
     this.generatedQuery =
       `DELETE FROM ${table} ${joins} ${whereClause} ${orderByClause} ${limitClause}`.trim();
 

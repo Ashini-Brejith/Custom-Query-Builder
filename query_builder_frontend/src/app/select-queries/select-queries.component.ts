@@ -29,7 +29,7 @@ export class SelectQueriesComponent {
   query = {
     table: '',
     alias: '',
-    columns: [{name:'*'}],
+    columns: [{ name: '*' }],
     joins: [{ type: 'INNER', table: '', alias: '', on: '' }],
     filters: [{ field: '', operator: '=', value: '', condition: 'AND' }],
     orderBy: { field: '', direction: 'ASC' },
@@ -37,7 +37,7 @@ export class SelectQueriesComponent {
   };
 
   addColumn() {
-    this.query.columns.push({name:''});
+    this.query.columns.push({ name: '' });
   }
 
   removeColumn(index: number) {
@@ -58,13 +58,13 @@ export class SelectQueriesComponent {
 
     const columns = this.query.columns
       .filter((col) => col.name.trim() !== '')
-      .map((col)=>col.name)
+      .map((col) => col.name)
       .join(', ');
     const selectColumns = columns || '*';
 
     const joins = this.query.joins
-    .filter((join) => join.table && join.on)
-    .map(
+      .filter((join) => join.table && join.on)
+      .map(
         (join) =>
           `${join.type} JOIN ${join.table}${
             join.alias ? ` AS ${join.alias}` : ''
@@ -74,8 +74,13 @@ export class SelectQueriesComponent {
 
     const filters = this.query.filters
       .filter((filter) => filter.field && filter.value)
-      .map((filter) => `${filter.field} ${filter.operator} '${filter.value}'`)
-      .join(' AND ');
+      .map((filter, index, filteredFilters) => {
+        const condition =
+          index < filteredFilters.length - 1 ? ` ${filter.condition}` : '';
+        return `${filter.field} ${filter.operator} '${filter.value}'${condition}`;
+      })
+      .join(' ');
+
     const whereClause = filters ? `WHERE ${filters}` : '';
 
     const orderByClause = this.query.orderBy?.field
