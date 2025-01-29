@@ -1,15 +1,15 @@
 <div class="font-serif flex w-screen h-screen p-2">
   <!-- Sidebar -->
   <div
-    class="sidebar w-1/6 bg-[#E5D9F2] border-white border-r-4 px-4 py-6 rounded-lg"
+    class="sidebar w-1/6 bg-black border-white text-white border-r-4 px-4 py-6 rounded-lg"
   >
     <h1 class="text-2xl px-4 font-bold mb-4">QUERY BUILDER</h1>
     <ul class="space-y-3">
       <li>
         <button
           (click)="selectPage('table')"
-          [ngClass]="{'bg-[#CDC1FF] border-2 border-gray-900': currentPage === 'table'}"
-          class="w-full text-left py-2 px-4 hover:bg-[#CDC1FF]text-lg"
+          [ngClass]="{'bg-[#CDC1FF] border-2 rounded-lg': currentPage === 'table'}"
+          class="w-full text-left py-2 px-4 hover:bg-[#CDC1FF] hover:rounded-lg text-lg"
         >
           Table Queries
         </button>
@@ -17,8 +17,8 @@
       <li>
         <button
           (click)="selectPage('select')"
-          [ngClass]="{'bg-[#CDC1FF] border-2 border-gray-900': currentPage === 'select'}"
-          class="w-full text-left py-2 px-4 hover:bg-[#CDC1FF] text-lg"
+          [ngClass]="{'bg-[#CDC1FF] border-2 rounded-lg': currentPage === 'select'}"
+          class="w-full text-left py-2 px-4 hover:bg-[#CDC1FF] hover:rounded-lg text-lg"
         >
           Select Queries
         </button>
@@ -26,8 +26,8 @@
       <li>
         <button
           (click)="selectPage('insert')"
-          [ngClass]="{'bg-[#CDC1FF] border-2 border-gray-900' : currentPage === 'insert'}"
-          class="w-full text-left py-2 px-4 hover:bg-[#CDC1FF] text-lg"
+          [ngClass]="{'bg-[#CDC1FF] border-2 rounded-lg' : currentPage === 'insert'}"
+          class="w-full text-left py-2 px-4 hover:bg-[#CDC1FF] hover:rounded-lg text-lg"
         >
           Insert Queries
         </button>
@@ -35,8 +35,8 @@
       <li>
         <button
           (click)="selectPage('update')"
-          [ngClass]="{'bg-[#CDC1FF] border-2 border-gray-900': currentPage === 'update'}"
-          class="w-full text-left py-2 px-4 hover:bg-[#CDC1FF] text-lg"
+          [ngClass]="{'bg-[#CDC1FF] border-2 rounded-lg': currentPage === 'update'}"
+          class="w-full text-left py-2 px-4 hover:bg-[#CDC1FF] hover:rounded-lg text-lg"
         >
           Update Queries
         </button>
@@ -44,8 +44,8 @@
       <li>
         <button
           (click)="selectPage('delete')"
-          [ngClass]="{'bg-[#CDC1FF] border-2 border-gray-900': currentPage === 'delete'}"
-          class="w-full text-left py-2 px-4 hover:bg-[#CDC1FF] text-lg"
+          [ngClass]="{'bg-[#CDC1FF] border-2 rounded-lg': currentPage === 'delete'}"
+          class="w-full text-left py-2 px-4 hover:bg-[#CDC1FF] hover:rounded-lg text-lg"
         >
           Delete Queries
         </button>
@@ -60,25 +60,25 @@
     </div>
     <div
       *ngIf="currentPage === 'select'"
-      class="px-4 py-2 my-16 border shadow-lg shadow-[#A294F9] rounded-xl bg-[#DFCCFB] max-h-[90vh] overflow-y-auto scrollbar-thin"
+      class="px-4 py-2 my-16 border shadow-lg shadow-[#A294F9] rounded-xl bg-white max-h-[90vh] overflow-y-auto scrollbar-thin"
     >
       <app-select-queries></app-select-queries>
     </div>
     <div
       *ngIf="currentPage === 'insert'"
-      class="px-4 py-2 my-16 border shadow-lg shadow-[#A294F9] rounded-xl bg-[#DFCCFB] max-h-[90vh] overflow-y-auto scrollbar-thin"
+      class="px-4 py-2 my-16 border shadow-lg shadow-[#A294F9] rounded-xl bg-white max-h-[90vh] overflow-y-auto scrollbar-thin"
     >
       <app-insert-queries></app-insert-queries>
     </div>
     <div
       *ngIf="currentPage === 'update'"
-      class="px-4 py-2 my-16 border shadow-lg shadow-[#A294F9] rounded-xl bg-[#DFCCFB] max-h-[90vh] overflow-y-auto scrollbar-thin"
+      class="px-4 py-2 my-16 border shadow-lg shadow-[#A294F9] rounded-xl bg-white max-h-[90vh] overflow-y-auto scrollbar-thin"
     >
       <app-update-queries></app-update-queries>
     </div>
     <div
       *ngIf="currentPage === 'delete'"
-      class="px-4 py-2 my-16 border shadow-lg shadow-[#A294F9] rounded-xl bg-[#DFCCFB] max-h-[90vh] overflow-y-auto scrollbar-thin"
+      class="px-4 py-2 my-16 border shadow-lg shadow-[#A294F9] rounded-xl bg-white max-h-[90vh] overflow-y-auto scrollbar-thin"
     >
       <app-delete-queries></app-delete-queries>
     </div>
