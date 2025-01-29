@@ -1,0 +1,77 @@
+<div class="m-2">
+  <h2 class="text-xl font-bold my-6 text-center">SELECT QUERIES</h2>
+  <div class="">
+    <div class="w-full flex flex-wrap gap-10 mb-4 mx-4">
+      <app-table-name
+        [table]="query.table"
+        (tableChange)="query.table = $event"
+        class="w-1/3"
+      ></app-table-name>
+
+      <app-table-alias
+        [alias]="query.alias"
+        (aliasChange)="query.alias = $event"
+        class="w-1/3"
+      ></app-table-alias>
+    </div>
+
+    <!-- Columns Section -->
+    <div class="mb-4 mx-4">
+      <h3 class="text-lg font-semibold mb-2">Columns</h3>
+      <div
+        *ngFor="let column of query.columns; let i = index"
+        class="flex flex-wrap items-center gap-4 mb-4"
+      >
+        <input
+          type="text"
+          [(ngModel)]="column.name"
+          name="column{{ i }}"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-1/3"
+          placeholder="Column name"
+        />
+        <img
+          src="remove.svg"
+          (click)="removeColumn(i)"
+          class="cursor-pointer w-8 h-8 hover:opacity-80"
+        />
+      <img
+      *ngIf="i === query.columns.length - 1" 
+      src="add.svg"
+        type="button"
+        (click)="addColumn()"
+        class="cursor-pointer w-8 h-8 hover:opacity-80"
+      />
+    </div>
+  </div>
+
+
+    <div class="mb-4 mx-4">
+      <app-join-query
+        [joins]="query.joins"
+        (joinsChange)="query.joins = $event"
+      ></app-join-query>
+
+      <app-filters
+        [filters]="query.filters"
+        (filtersChange)="query.filters = $event"
+      ></app-filters>
+
+      <app-sort
+        [orderBy]="query.orderBy"
+        (orderByChange)="query.orderBy = $event"
+      ></app-sort>
+
+      <app-limit
+        [limit]="query.limit"
+        (limitChange)="query.limit = $event"
+      ></app-limit>
+
+      <app-query-generate-button
+        (generate)="generateQuery()"
+      ></app-query-generate-button>
+    </div>
+
+    <app-display-query [generatedQuery]="generatedQuery"></app-display-query>
+
+  </div>
+</div>
