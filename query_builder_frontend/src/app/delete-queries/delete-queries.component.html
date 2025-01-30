@@ -1,0 +1,45 @@
+<div class="">
+    <h2 class="text-xl font-bold py-6 text-center">DELETE QUERIES</h2>
+      
+    <div class="px-4">
+        <app-table-section
+          [table]="query.table"
+          (tableChange)="query.table = $event"
+          [alias]="query.alias"
+          (aliasChange)="query.alias = $event"
+          class="w-1/3"
+        ></app-table-section>
+  
+      <div class="space-y-4">
+        <app-filters
+          [filters]="query.filters"
+          (filtersChange)="query.filters = $event"
+        ></app-filters>
+  
+        <app-join-query
+          [joins]="query.joins"
+          (joinsChange)="query.joins = $event"
+        ></app-join-query>
+  
+        <app-sort
+          [orderBy]="query.orderBy"
+          (orderByChange)="query.orderBy = $event"
+        ></app-sort>
+  
+        <app-limit
+          [limit]="query.limit"
+          (limitChange)="query.limit = $event"
+        ></app-limit>
+  
+        <div class="pb-4">
+          <app-query-generate-button
+            (generate)="generateQuery()"
+          ></app-query-generate-button>
+          </div>
+      </div>
+  
+      <div>
+      <app-display-query [generatedQuery]="generatedQuery"></app-display-query>
+      </div>
+  </div>
+  

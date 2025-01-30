@@ -1,0 +1,164 @@
+<div class="px-4 py-2 border shadow-lg shadow-[#A9A9A9] rounded-xl bg-[#9E9FA5]">
+  <h3 class="font-bold text-xl py-6 text-center">CREATE TABLE</h3>
+
+      <div class="px-4">
+      <div class="w-full">
+        <app-table-section
+          [table]="table"
+          (tableChange)="table = $event"
+          [showAlias]="false"
+        ></app-table-section>
+      </div>
+
+      <div class="">
+        <label class="block text-lg font-bold" for="columns"
+          >Columns</label
+        >
+
+        <div
+          *ngFor="let column of columns; let i = index"
+          class="columns-container mx-auto flex flex-wrap gap-4 justify-between items-center pt-1"
+        >
+          <div class="column w-1/8">
+            <label class="block text-md font-medium" for="column-name"
+              >Name <span class="text-red-500">*</span></label
+            >
+            <input
+              [(ngModel)]="column.name"
+              name="name{{i}}"
+              class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 px-2.5 py-4"
+              required
+              placeholder="Enter column name"
+            />
+          </div>
+
+          <div class="column w-1/8">
+            <label class="block text-md font-medium" for="column-type"
+              >Type <span class="text-red-500">*</span></label
+            >
+            <select
+              [(ngModel)]="column.type"
+              name="type{{i}}"
+              class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 px-2.5 py-1.5"
+            >
+              <option value="" disabled>Choose a data type</option>
+              <option value="bigint">Bigint</option>
+              <option value="bigserial">Big Serialt</option>
+              <option value="boolean">Boolean</option>
+              <option value="box">Box</option>
+              <option value="bytea">Bytea (Binary Data)</option>
+              <option value="char">Char</option>
+              <option value="cidr">CIDR (IP Network)</option>
+              <option value="circle">Circle</option>
+              <option value="date">Date</option>
+              <option value="double precision">Double Precision</option>
+              <option value="integer">Integer</option>
+              <option value="inet">INET (IP Address)</option>
+              <option value="interval">Interval</option>
+              <option value="json">JSON</option>
+              <option value="jsonb">JSONB (Binary JSON)</option>
+              <option value="line">Line</option>
+              <option value="lseg">Line Segment</option>
+              <option value="macaddr">MAC Address</option>
+              <option value="money">Money</option>
+              <option value="numeric">Numeric</option>
+              <option value="point">Point</option>
+              <option value="polygon">Polygon</option>
+              <option value="real">Real</option>
+              <option value="smallint">Smallint</option>
+              <option value="smallserial">Small Serial</option>
+              <option value="text">Text</option>
+              <option value="timestamp">Timestamp</option>
+              <option value="timestamp with time zone">
+                Timestamp with Time Zone
+              </option>
+              <option value="time">Time</option>
+              <option value="time with time zone">Time with Time Zone</option>
+              <option value="uuid">UUID</option>
+              <option value="varchar">Varchar</option>
+            </select>
+          </div>
+
+          <div class="column w-1/8">
+            <label class="block text-md font-medium" for="column-length"
+              >Length</label
+            >
+            <input
+              [(ngModel)]="column.length"
+              name="length{{i}}"
+              type="number"
+              class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 px-2.5 py-4"
+              placeholder="Enter length"
+            />
+          </div>
+
+          <div
+            class="column w-1/8 flex flex-wrap gap-2 items-center justify-center pt-5"
+          >
+            <label class="block text-md font-medium" for="column-not-null"
+              >Not Null</label
+            >
+            <input
+              [(ngModel)]="column.notNull"
+              name="notNull{{i}}"
+              type="checkbox"
+              class="h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500"
+            />
+          </div>
+
+          <div
+            class="column w-1/8 flex flex-wrap gap-2 items-center justify-center pt-5"
+          >
+            <label class="block text-md font-medium" for="column-primary-key"
+              >Primary Key</label
+            >
+            <input
+              [(ngModel)]="column.primaryKey"
+              name="primaryKey{{i}}"
+              type="checkbox"
+              class="h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500"
+            />
+          </div>
+
+          <div
+            class="column w-1/8 flex flex-wrap gap-2 items-center justify-center pt-5"
+          >
+            <label class="block text-md font-medium" for="column-unique"
+              >Unique</label
+            >
+            <input
+              [(ngModel)]="column.unique"
+              name="unique{{i}}"
+              type="checkbox"
+              class="h-4 w-4 text-indigo-600 focus:outline-none focus:ring-indigo-500"
+            />
+          </div>
+          <div class="column w-1/8 flex flex-wrap gap-4 pt-5">
+            <img
+              src="remove.svg"
+              (click)="removeColumn()"
+              class="cursor-pointer w-8 h-8 hover:opacity-80"
+            />
+            </div>
+            <div class="column w-1/8 flex flex-wrap gap-4 pt-5">
+              <img
+            *ngIf="i === columns.length - 1" 
+            src="add.svg"
+              type="button"
+              (click)="addColumn()"
+              class="cursor-pointer w-8 h-8 hover:opacity-80"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="py-4">
+      <app-query-generate-button
+        (generate)="generateQuery()"
+      ></app-query-generate-button>
+    </div>
+
+    <app-display-query [generatedQuery]="generatedQuery"></app-display-query>
+
+</div>

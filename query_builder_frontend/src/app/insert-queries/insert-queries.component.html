@@ -1,0 +1,66 @@
+<div class="">
+  <h2 class="text-xl font-bold my-6 text-center">INSERT QUERIES</h2>
+  
+  <div class="px-4">
+      <app-table-section
+        [table]="query.table"
+        (tableChange)="query.table = $event"
+        [showAlias]="false"
+        ></app-table-section>
+        </div>
+
+    <div class="px-4">
+      <h3 class="text-lg font-semibold pb-2">Columns</h3>
+      <div
+        *ngFor="let column of query.columns; let i = index"
+        class="flex flex-wrap items-center gap-4 mb-4"
+      >
+        <div class="flex items-center gap-2 w-full md:w-1/3">
+          <label class="whitespace-nowrap">Column Name:</label>
+          <input
+            type="text"
+            [(ngModel)]="column.name"
+            name="columnName{{ i }}"
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
+            placeholder="Column name"
+          />
+        </div>
+
+        <div class="flex items-center gap-2 w-full md:w-1/3">
+          <label class="whitespace-nowrap">Value:</label>
+          <input
+            type="text"
+            [(ngModel)]="column.value"
+            name="columnValue{{ i }}"
+            class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
+            placeholder="Value"
+          />
+        </div>
+
+        <img
+          src="remove.svg"
+          (click)="removeColumn(i)"
+          class="cursor-pointer w-8 h-8 hover:opacity-80"
+        />
+
+      <img
+      *ngIf="i === query.columns.length - 1"
+      src="add.svg"
+      (click)="addColumn()"
+      class="cursor-pointer w-8 h-8 hover:opacity-80"
+      />
+    </div>
+    </div>
+
+
+    <div class="mb-4">
+      <app-query-generate-button
+        (generate)="generateQuery()"
+      ></app-query-generate-button>
+    </div>
+
+    <div>
+    <app-display-query [generatedQuery]="generatedQuery"></app-display-query>
+
+    </div>
+</div>

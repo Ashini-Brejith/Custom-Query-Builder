@@ -1,0 +1,114 @@
+<div class="px-4 py-2 border shadow-lg shadow-[#A9A9A9] rounded-xl bg-[#9E9FA5]">
+  <h2 class="text-xl font-bold my-6 text-center">ALTER TABLE</h2>
+
+  <div class="w-full px-4">
+    <app-table-section
+      [table]="query.table"
+      (tableChange)="query.table = $event"
+      [showAlias]="false"
+    ></app-table-section>
+  </div>
+
+  <div class="px-4">
+    <h4 class="font-bold text-lg pb-2">Add New Column</h4>
+    <div class="flex flex-col gap-4">
+      <div class="flex items-center gap-2">
+        <label class="w-40 font-medium">Column Name:</label>
+        <input
+          type="text"
+          [(ngModel)]="query.newColumn.name"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 h-10 px-2.5 py-4 flex-1"
+          placeholder="New Column Name"
+        />
+      </div>
+
+      <div class="flex items-center gap-2">
+        <label class="w-40 font-medium">Column Type:</label>
+
+      <select
+      [(ngModel)]="query.newColumn.type"
+      class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 h-8 px-2 flex-1"
+      >
+      <option value="" disabled>Choose a data type</option>
+      <option value="bigint">Bigint</option>
+      <option value="bigserial">Big Serialt</option>
+      <option value="boolean">Boolean</option>
+      <option value="box">Box</option>
+      <option value="bytea">Bytea (Binary Data)</option>
+      <option value="char">Char</option>
+      <option value="cidr">CIDR (IP Network)</option>
+      <option value="circle">Circle</option>
+      <option value="date">Date</option>
+      <option value="double precision">Double Precision</option>
+      <option value="integer">Integer</option>
+      <option value="inet">INET (IP Address)</option>
+      <option value="interval">Interval</option>
+      <option value="json">JSON</option>
+      <option value="jsonb">JSONB (Binary JSON)</option>
+      <option value="line">Line</option>
+      <option value="lseg">Line Segment</option>
+      <option value="macaddr">MAC Address</option>
+      <option value="money">Money</option>
+      <option value="numeric">Numeric</option>
+      <option value="point">Point</option>
+      <option value="polygon">Polygon</option>
+      <option value="real">Real</option>
+      <option value="smallint">Smallint</option>
+      <option value="smallserial">Small Serial</option>
+      <option value="text">Text</option>
+      <option value="timestamp">Timestamp</option>
+      <option value="timestamp with time zone">
+        Timestamp with Time Zone
+      </option>
+      <option value="time">Time</option>
+      <option value="time with time zone">Time with Time Zone</option>
+      <option value="uuid">UUID</option>
+      <option value="varchar">Varchar</option>
+    </select>
+    </div>
+
+      <!--<div class="flex items-center gap-2">
+        <label class="w-40 font-medium">Column Type:</label>
+        <input
+          type="text"
+          [(ngModel)]="query.newColumn.type"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 h-8 px-2.5 py-4 flex-1"
+          placeholder="New Column Type"
+        />
+      </div>-->
+    </div>
+  </div>
+
+  <div class="px-4 py-4">
+    <h4 class="font-bold text-lg pb-2">Rename Existing Column</h4>
+    <div class="flex flex-col gap-4">
+      <div class="flex items-center gap-2">
+        <label class="w-40 font-medium">Old Column Name:</label>
+        <input
+          type="text"
+          [(ngModel)]="query.oldColumnName"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 h-8 px-2.5 py-4 flex-1"
+          placeholder="Old Column Name"
+        />
+      </div>
+      <div class="flex items-center gap-2">
+        <label class="w-40 font-medium">New Column Name:</label>
+        <input
+          type="text"
+          [(ngModel)]="query.newColumnName"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 h-8 px-2.5 py-4 flex-1"
+          placeholder="New Column Name"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="py-4 text-center">
+    <app-query-generate-button
+      (generate)="generateQuery()"
+    ></app-query-generate-button>
+  </div>
+  
+  <app-display-query [generatedQuery]="generatedQuery"></app-display-query>
+
+</div>
