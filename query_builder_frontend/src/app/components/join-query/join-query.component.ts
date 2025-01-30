@@ -33,4 +33,23 @@ export class JoinQueryComponent {
     this.joins.splice(index, 1);
     }
   }
+
+  onTableChange(value: string) {
+    const validTableName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    if (!validTableName.test(value)) {
+      this.tableError = 'Invalid table name! Use only letters, numbers, and underscores, and start with a letter.';
+    } else {
+      this.tableError = ''; 
+    }
+  }
+
+  onAliasChange(value: string) {
+    const validAliasName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    if (!validAliasName.test(value)) {
+      this.aliasError = 'Invalid alias name! Use only letters, numbers, and underscores, and start with a letter.';
+    } else {
+      this.aliasError = ''; 
+    }
+  }
+
 }

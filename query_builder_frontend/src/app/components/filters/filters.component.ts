@@ -19,7 +19,7 @@ export class FiltersComponent {
   onFieldChange(value: string) {
     const validTableName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
     if (!validTableName.test(value)) {
-      this.fieldNameError = 'Invalid field Name';
+      this.fieldNameError = 'Invalid field name!';
     } else {
       this.fieldNameError = ''; 
     }

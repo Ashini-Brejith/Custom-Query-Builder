@@ -19,17 +19,17 @@
       </select>
     </div>
 
-    <!-- Table Section -->
     <div class="flex items-center gap-2 w-full md:w-1/5">
       <label class="whitespace-nowrap">Table:</label>
       <input
         type="text"
         [(ngModel)]="join.table"
-        (ngModelChange)="onJoinChange()"
+        (ngModelChange)="onJoinChange(); onTableChange($event)"
         name="JoinTable{{ i }}"
         class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
         placeholder="Enter table name"
       />
+      <p *ngIf="tableError" class="text-red-800 text-sm mt-1">{{ tableError }}</p>
     </div>
 
     <div class="flex items-center gap-2 w-full md:w-1/5">
@@ -37,11 +37,12 @@
       <input
         type="text"
         [(ngModel)]="join.alias"
-        (ngModelChange)="onJoinChange()"
+        (ngModelChange)="onJoinChange(); onAliasChange($event)"
         name="JoinAlias{{ i }}"
         class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
         placeholder="Enter table alias"
       />
+      <p *ngIf="aliasError" class="text-red-800 text-sm mt-1">{{ aliasError }}</p>
     </div>
 
     <div class="flex items-center gap-2 w-full md:w-1/5">
@@ -56,7 +57,6 @@
       />
     </div>
 
-    <!-- Remove Button -->
     <img
     src="remove.svg"
     (click)="removeJoin(i)"

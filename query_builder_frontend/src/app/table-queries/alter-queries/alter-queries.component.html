@@ -18,7 +18,7 @@
           type="text"
           [(ngModel)]="query.newColumn.name"
           (ngModelChange)="validateColumnName(query.newColumn.name)" 
-          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 h-10 px-2.5 py-4 flex-1"
+          class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 h-8 px-2.5 py-4 flex-1"
           placeholder="New Column Name"
         />
         <p *ngIf="columnError" class="text-red-800 text-sm">{{ columnError }}</p>

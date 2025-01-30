@@ -35,7 +35,7 @@ export class TableSectionComponent {
       this.aliasError = 'Invalid alias name! Use only letters, numbers, and underscores, and start with a letter.';
     } else {
       this.aliasError = ''; 
-      this.aliasChange.emit(value);  // <-- This line was outside the else block
+      this.aliasChange.emit(value);  
     }
   }
 }
