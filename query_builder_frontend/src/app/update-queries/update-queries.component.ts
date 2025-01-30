@@ -19,7 +19,8 @@ import { TableSectionComponent } from '../components/table-section/table-section
     FiltersComponent,
     SortComponent,
     LimitComponent,
-    QueryGenerateButtonComponent, DisplayQueryComponent
+    QueryGenerateButtonComponent,
+    DisplayQueryComponent,
   ],
   templateUrl: './update-queries.component.html',
 })
@@ -34,19 +35,29 @@ export class UpdateQueriesComponent {
     orderBy: { field: '', direction: 'ASC' },
   };
 
+  fieldNameError: string = '';
+
   addField() {
     this.query.fields.push({ name: '', value: '' });
   }
 
   removeField(index: number) {
     if (this.query.fields.length > 1) {
-    this.query.fields.splice(index, 1);
+      this.query.fields.splice(index, 1);
+    }
+  }
+
+  onFieldNameChange(value: string): void {
+    const validFieldName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    if (!validFieldName.test(value)) {
+      this.fieldNameError = 'Invalid field name!';
+    } else {
+      this.fieldNameError = '';
     }
   }
 
   generatedQuery: string = '';
   generateQuery() {
-    // Validate table and fields
     if (
       !this.query.table ||
       !this.query.fields ||
@@ -61,7 +72,7 @@ export class UpdateQueriesComponent {
     }`;
 
     const fieldsToUpdate = this.query.fields
-      .filter((field) => field.name && field.value) // Filter out empty fields
+      .filter((field) => field.name && field.value)
       .map((field) => `${field.name} = '${field.value}'`)
       .join(', ');
 

@@ -5,9 +5,11 @@
       type="text"
       [(ngModel)]="orderBy.field"
       name="orderByField"
+      (ngModelChange)="onFieldChange($event)"
       class="border border-gray-900 rounded-lg focus:ring-blur-500 focus:border-blue-500 block w-1/4 h-8 p-2.5"
       placeholder="Field to sort by"
     />
+    <p *ngIf="fieldNameError" class="text-red-800 text-sm mt-1">{{ fieldNameError }}</p>
     <select
       [(ngModel)]="orderBy.direction"
       (ngModelChange)="onSortChange()"

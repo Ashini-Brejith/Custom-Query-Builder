@@ -24,10 +24,31 @@ export class AlterQueriesComponent {
 
   generatedQuery: string = '';
 
+  columnError:string=''
+
+  validateColumnName(name: string) {
+    const validColumnName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    if (!validColumnName.test(name)) {
+      this.columnError = 'Invalid column name! Use only letters, numbers, and underscores, and start with a letter.';
+      return false;
+    } else {
+      this.columnError = '';  // Clear error if valid
+      return true;
+    }
+  }
+
   generateQuery() {
     if (!this.query.table) {
       alert('Please provide the table name.');
       return;
+    }
+
+    if (this.query.newColumn.name && !this.validateColumnName(this.query.newColumn.name)) {
+      return;  
+    }
+
+    if (this.query.oldColumnName && !this.validateColumnName(this.query.oldColumnName)) {
+      return;  
     }
 
     if (this.query.newColumn.name && this.query.newColumn.type) {
@@ -40,5 +61,5 @@ export class AlterQueriesComponent {
       alert('Please provide the necessary details for adding or renaming a column.');
       return;
     }  
-}
+  }
 }

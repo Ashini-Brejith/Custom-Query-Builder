@@ -22,15 +22,24 @@ export class InsertQueriesComponent {
     columns: [{ name: '', value: '' }],
   };
 
-  // Add a new column to the columns array
+  columnError:string='';
+
   addColumn() {
     this.query.columns.push({ name: '', value: '' });
   }
 
-  // Remove a column by index
   removeColumn(index: number) {
     if (this.query.columns.length > 1) {
     this.query.columns.splice(index, 1);
+    }
+  }
+
+  onColumnChange(value: string): void {
+    const validColumnName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    if (!validColumnName.test(value)) {
+      this.columnError = 'Invalid column name!';
+    } else {
+      this.columnError = '';
     }
   }
 

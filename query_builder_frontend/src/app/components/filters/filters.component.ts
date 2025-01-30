@@ -14,8 +14,19 @@ export class FiltersComponent {
     { field: string; operator: string; value: string, condition:string }[]
   >();
 
+  fieldNameError: string='';
+
+  onFieldChange(value: string) {
+    const validTableName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    if (!validTableName.test(value)) {
+      this.fieldNameError = 'Invalid field Name';
+    } else {
+      this.fieldNameError = ''; 
+    }
+  }
+
   onFilterChange() {
-    this.filtersChange.emit(this.filters); // Emit the updated filters array
+    this.filtersChange.emit(this.filters);
   }
   addFilter() {
     this.filters.push({ field: '', operator: '=', value: '', condition:'AND' });

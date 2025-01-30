@@ -20,10 +20,12 @@
           <input
             type="text"
             [(ngModel)]="column.name"
+            (ngModelChange)="onColumnChange($event)"
             name="columnName{{ i }}"
             class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
             placeholder="Column name"
           />
+          <p *ngIf="columnError" class="text-red-800 text-sm">{{ columnError }}</p>
         </div>
 
         <div class="flex items-center gap-2 w-full md:w-1/3">

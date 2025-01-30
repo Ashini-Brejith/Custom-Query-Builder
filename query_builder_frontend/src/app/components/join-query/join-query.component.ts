@@ -12,12 +12,16 @@ export class JoinQueryComponent {
   @Input() joins: any[] = [];
   @Output() joinsChange = new EventEmitter<any[]>();
 
+  tableError: string = '';
+  aliasError: string = '';
+
+
   onJoinChange() {
     this.joinsChange.emit(this.joins);
   }
   addJoin() {
     this.joins.push({
-      type: 'INNER', // default join type
+      type: 'INNER', 
       table: '',
       alias: '',
       on: '',

@@ -13,9 +13,11 @@ import { TableSectionComponent } from '../../components/table-section/table-sect
   styleUrl: './create-queries.component.css',
 })
 export class CreateQueriesComponent {
+  
   generatedQuery = '';
 
   table: string = '';
+
   columns: Array<any> = [
     {
       name: '',
@@ -26,6 +28,8 @@ export class CreateQueriesComponent {
       unique: false,
     },
   ];
+
+  columnError: string='';
 
   addColumn(): void {
     this.columns.push({
@@ -44,6 +48,16 @@ export class CreateQueriesComponent {
     }
   }
 
+  onColumnChange(value: string): void {
+    const validColumnName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    if (!validColumnName.test(value)) {
+      this.columnError = 'Invalid column name!';
+    } else {
+      this.columnError = '';
+    }
+  }
+
+  
   generateQuery() {
     if (!this.table) {
       alert('Table name is required.');

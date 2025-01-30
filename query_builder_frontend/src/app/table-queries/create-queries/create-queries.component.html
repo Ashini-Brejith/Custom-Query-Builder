@@ -25,11 +25,14 @@
             >
             <input
               [(ngModel)]="column.name"
+              (ngModelChange)="onColumnChange($event)"
               name="name{{i}}"
               class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 px-2.5 py-4"
               required
               placeholder="Enter column name"
             />
+            <p *ngIf="columnError" class="text-red-800 text-sm mt-1">{{ columnError }}</p>
+
           </div>
 
           <div class="column w-1/8">
