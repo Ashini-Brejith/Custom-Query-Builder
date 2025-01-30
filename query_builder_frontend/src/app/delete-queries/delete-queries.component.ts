@@ -46,31 +46,6 @@ export class DeleteQueriesComponent {
     });
   }
 
-  validateJoin() {
-    const validTableName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
-    const validAliasName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
-
-    this.query.joins.forEach((join) => {
-      join.table = join.table.trim();
-      join.alias = join.alias.trim();
-
-      let errors = [];
-
-      if (!join.table || !validTableName.test(join.table)) {
-        errors.push(`Table name "${join.table}" is invalid`);
-      }
-
-      if (join.alias && !validAliasName.test(join.alias)) {
-        errors.push(`Table alias "${join.alias}" is invalid`);
-      }
-
-      if (!join.on) {
-        errors.push(`Join condition (ON clause) is required`);
-      }
-
-      join.error = errors.length ? errors.join(', ') : '';
-    });
-  }
 
   generateQuery() {
 
@@ -91,13 +66,7 @@ export class DeleteQueriesComponent {
       )
       .join(' ');
 
-    this.validateJoin();
-    const invalidJoin = this.query.joins.find(join => join.error);
-    if (invalidJoin) {
-      alert(this.query.joins.map(join => join.error).join('\n'));
-      return;
-    }
-
+  
 
     const filters = this.query.filters
       .filter((filter) => filter.field && filter.value)
