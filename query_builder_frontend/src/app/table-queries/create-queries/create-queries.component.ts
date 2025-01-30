@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { QueryGenerateButtonComponent } from '../../components/query-generate-button/query-generate-button.component';
-import { DisplayQueryComponent } from '../../display-query/display-query.component';
+import { DisplayQueryComponent } from '../../components/display-query/display-query.component';
 import { TableSectionComponent } from '../../components/table-section/table-section.component';
 
 

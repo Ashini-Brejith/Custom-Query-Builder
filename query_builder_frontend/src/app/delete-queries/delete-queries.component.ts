@@ -6,7 +6,7 @@ import { JoinQueryComponent } from '../components/join-query/join-query.componen
 import { FiltersComponent } from '../components/filters/filters.component';
 import { LimitComponent } from '../components/limit/limit.component';
 import { SortComponent } from '../components/sort/sort.component';
-import { DisplayQueryComponent } from '../display-query/display-query.component';
+import { DisplayQueryComponent } from '../components/display-query/display-query.component';
 import { TableSectionComponent } from '../components/table-section/table-section.component';
 
 @Component({
