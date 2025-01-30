@@ -22,7 +22,7 @@
           <input
             type="text"
             [(ngModel)]="column.name"
-            (ngModelChange)="onColumnChange($event)"
+            (ngModelChange)="validateColumns()"
             name="columnName{{ i }}"
             class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
             placeholder="Column name"

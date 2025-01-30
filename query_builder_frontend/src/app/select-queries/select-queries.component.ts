@@ -28,34 +28,101 @@ export class SelectQueriesComponent {
   query = {
     table: '',
     alias: '',
-    columns: [{ name: '*' }],
-    joins: [{ type: 'INNER', table: '', alias: '', on: '' }],
-    filters: [{ field: '', operator: '=', value: '', condition: 'AND' }],
+    columns: [{ name: '*', error: '' }],
+    joins: [{ type: 'INNER', table: '', alias: '', on: '', error: '' }],
+    filters: [{ field: '', operator: '=', value: '', condition: 'AND', error: '' }],
     orderBy: { field: '', direction: 'ASC' },
     limit: '',
   };
 
   addColumn() {
-    this.query.columns.push({ name: '' });
+    this.query.columns.push({ name: '', error: '' });
   }
 
   removeColumn(index: number) {
     if (this.query.columns.length > 1) {
-    this.query.columns.splice(index, 1);
+      this.query.columns.splice(index, 1);
     }
+  }
+  validateColumns() {
+    const validColumnName = /^[a-zA-Z][a-zA-Z0-9_]*$|^\*$/;
+    this.query.columns.forEach((column, index) => {
+      if (!column.name || !validColumnName.test(column.name)) {
+        column.error = `Column name "${column.name}" is invalid`;
+      } else {
+        column.error = '';
+      }
+    });
+  }
+
+  validateField() {
+    const validColumnName = /^[a-zA-Z][a-zA-Z0-9_]*$|^\*$/;
+    this.query.filters.forEach((filter) => {
+      if (filter.field && !validColumnName.test(filter.field)) {
+        filter.error = `Field name "${filter.field}" is invalid`;
+      } else {
+        filter.error = '';
+      }
+    });
+  }
+
+  validateJoin() {
+    const validTableName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    const validAliasName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    this.query.joins.forEach((join) => {
+      join.table = join.table.trim();
+      join.alias = join.alias.trim();
+
+      let errors = [];
+
+      if (!join.table || !validTableName.test(join.table)) {
+        errors.push(`Table name "${join.table}" is invalid`);
+      }
+
+      if (join.alias && !validAliasName.test(join.alias)) {
+        errors.push(`Table alias "${join.alias}" is invalid`);
+      }
+
+      if (!join.on) {
+        errors.push(`Join condition (ON clause) is required`);
+      }
+
+      join.error = errors.length ? errors.join(', ') : '';
+    });
   }
 
   generatedQuery: string = '';
 
   generateQuery() {
     if (!this.query.table) {
-      alert('Please provide a table name.');
+      alert('Please provide a valid table name.');
       return;
     }
 
-    const table = `${this.query.table}${
-      this.query.alias ? ` AS ${this.query.alias}` : ''
-    }`;
+    this.validateColumns();
+    const invalidColumn = this.query.columns.find(column => column.error);
+    if (invalidColumn) {
+      alert(this.query.columns.map(column => column.error).join('\n'));
+      return;
+    }
+
+    this.validateJoin();
+    const invalidJoin = this.query.joins.find(join => join.error);
+    if (invalidJoin) {
+      alert(this.query.joins.map(join => join.error).join('\n'));
+      return;
+    }
+
+    this.validateField();
+    const invalidField = this.query.filters.find(filter => filter.error);
+    if (invalidField) {
+      alert(this.query.filters.map(filter => filter.error).join('\n'));
+      return;
+    }
+
+
+    const table = `${this.query.table}${this.query.alias ? ` AS ${this.query.alias}` : ''
+      }`;
 
     const columns = this.query.columns
       .filter((col) => col.name.trim() !== '')
@@ -67,11 +134,11 @@ export class SelectQueriesComponent {
       .filter((join) => join.table && join.on)
       .map(
         (join) =>
-          `${join.type} JOIN ${join.table}${
-            join.alias ? ` AS ${join.alias}` : ''
+          `${join.type} JOIN ${join.table}${join.alias ? ` AS ${join.alias}` : ''
           } ON ${join.on}`
       )
       .join(' ');
+
 
     const filters = this.query.filters
       .filter((filter) => filter.field && filter.value)
@@ -83,6 +150,8 @@ export class SelectQueriesComponent {
       .join(' ');
 
     const whereClause = filters ? `WHERE ${filters}` : '';
+
+
 
     const orderByClause = this.query.orderBy?.field
       ? `ORDER BY ${this.query.orderBy.field} ${this.query.orderBy.direction}`

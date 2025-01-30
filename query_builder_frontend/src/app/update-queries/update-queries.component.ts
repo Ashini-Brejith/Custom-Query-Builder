@@ -28,9 +28,9 @@ export class UpdateQueriesComponent {
   query = {
     table: '',
     alias: '',
-    fields: [{ name: '', value: '' }],
-    joins: [{ type: 'INNER', table: '', alias: '', on: '' }],
-    filters: [{ field: '', operator: '=', value: '', condition: 'AND' }],
+    fields: [{ name: '', value: '', error: '' }],
+    joins: [{ type: 'INNER', table: '', alias: '', on: '', error: '' }],
+    filters: [{ field: '', operator: '=', value: '', condition: 'AND', error: '' }],
     limit: '',
     orderBy: { field: '', direction: 'ASC' },
   };
@@ -38,7 +38,7 @@ export class UpdateQueriesComponent {
   fieldNameError: string = '';
 
   addField() {
-    this.query.fields.push({ name: '', value: '' });
+    this.query.fields.push({ name: '', value: '', error: '' });
   }
 
   removeField(index: number) {
@@ -47,14 +47,54 @@ export class UpdateQueriesComponent {
     }
   }
 
-  onFieldNameChange(value: string): void {
-    const validFieldName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
-    if (!validFieldName.test(value)) {
-      this.fieldNameError = 'Invalid field name!';
-    } else {
-      this.fieldNameError = '';
-    }
+  validateColumns() {
+    const validColumnName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    this.query.fields.forEach((column, index) => {
+      if (!column.name || !validColumnName.test(column.name)) {
+        column.error = `Column name "${column.name}" is invalid`;
+      } else {
+        column.error = '';
+      }
+    });
   }
+
+  validateField() {
+    const validColumnName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    this.query.filters.forEach((filter, index) => {
+      if (!filter.field || !validColumnName.test(filter.field)) {
+        filter.error = `Column name "${filter.field}" is invalid`;
+      } else {
+        filter.error = '';
+      }
+    });
+  }
+
+  validateJoin() {
+    const validTableName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+    const validAliasName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+
+    this.query.joins.forEach((join) => {
+      join.table = join.table.trim();
+      join.alias = join.alias.trim();
+
+      let errors = [];
+
+      if (!join.table || !validTableName.test(join.table)) {
+        errors.push(`Table name "${join.table}" is invalid`);
+      }
+
+      if (join.alias && !validAliasName.test(join.alias)) {
+        errors.push(`Table alias "${join.alias}" is invalid`);
+      }
+
+      if (!join.on) {
+        errors.push(`Join condition (ON clause) is required`);
+      }
+
+      join.error = errors.length ? errors.join(', ') : '';
+    });
+  }
+
 
   generatedQuery: string = '';
   generateQuery() {
@@ -66,10 +106,29 @@ export class UpdateQueriesComponent {
       alert('Please provide a table name and at least one field to update.');
       return;
     }
+    const table = `${this.query.table}${this.query.alias ? ` AS ${this.query.alias}` : ''
+      }`;
 
-    const table = `${this.query.table}${
-      this.query.alias ? ` AS ${this.query.alias}` : ''
-    }`;
+      this.validateColumns();
+      const invalidColumn = this.query.fields.find(column => column.error);
+      if (invalidColumn) {
+        alert(this.query.fields.map(column => column.error).join('\n'));
+        return;
+      }
+
+      this.validateField();
+      const invalidField = this.query.filters.find(filter => filter.error);
+      if (invalidField) {
+        alert(this.query.filters.map(filter => filter.error).join('\n'));
+        return;
+      }
+
+      this.validateJoin();
+      const invalidJoin = this.query.joins.find(join => join.error);
+      if (invalidJoin) {
+        alert(this.query.joins.map(join => join.error).join('\n'));
+        return;
+      }
 
     const fieldsToUpdate = this.query.fields
       .filter((field) => field.name && field.value)
@@ -82,12 +141,10 @@ export class UpdateQueriesComponent {
     }
 
     const joins = this.query.joins
-      .filter((join) => join.table && join.on)
+      .filter(join => join.table && join.on)
       .map(
-        (join) =>
-          `${join.type} JOIN ${join.table}${
-            join.alias ? ` AS ${join.alias}` : ''
-          } ON ${join.on}`
+        join =>
+          `${join.type} JOIN ${join.table.trim()}${join.alias ? ` AS ${join.alias.trim()}` : ''} ON ${join.on}`
       )
       .join(' ');
 
@@ -101,6 +158,8 @@ export class UpdateQueriesComponent {
       .join(' ');
 
     const whereClause = filters ? `WHERE ${filters}` : '';
+
+
     const orderByClause = this.query.orderBy?.field
       ? `ORDER BY ${this.query.orderBy.field} ${this.query.orderBy.direction}`
       : '';

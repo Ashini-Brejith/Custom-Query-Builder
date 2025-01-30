@@ -5,7 +5,6 @@ import { QueryGenerateButtonComponent } from '../../components/query-generate-bu
 import { DisplayQueryComponent } from '../../components/display-query/display-query.component';
 import { TableSectionComponent } from '../../components/table-section/table-section.component';
 
-
 @Component({
   selector: 'app-create-queries',
   imports: [FormsModule, CommonModule, TableSectionComponent, QueryGenerateButtonComponent, DisplayQueryComponent],
@@ -13,11 +12,8 @@ import { TableSectionComponent } from '../../components/table-section/table-sect
   styleUrl: './create-queries.component.css',
 })
 export class CreateQueriesComponent {
-  
   generatedQuery = '';
-
   table: string = '';
-
   columns: Array<any> = [
     {
       name: '',
@@ -26,10 +22,9 @@ export class CreateQueriesComponent {
       notNull: false,
       primaryKey: false,
       unique: false,
+      error: ''
     },
   ];
-
-  columnError: string='';
 
   addColumn(): void {
     this.columns.push({
@@ -39,36 +34,39 @@ export class CreateQueriesComponent {
       notNull: false,
       primaryKey: false,
       unique: false,
+      error: ''
     });
   }
 
-  removeColumn(): void {
+  removeColumn(index: number): void {
     if (this.columns.length > 1) {
-      this.columns.pop();
+      this.columns.splice(index, 1);
     }
   }
 
-  onColumnChange(value: string): void {
+  validateColumns() {
     const validColumnName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
-    if (!validColumnName.test(value)) {
-      this.columnError = 'Invalid column name!';
-    } else {
-      this.columnError = '';
-    }
+    
+    this.columns.forEach((column, index) => {
+      if (!column.name || !validColumnName.test(column.name)) {
+        column.error = `Column name "${column.name}" is invalid.`;
+      } else {
+        column.error = ''; 
+      }
+    });
   }
 
-  
   generateQuery() {
     if (!this.table) {
-      alert('Table name is required.');
+      alert('PLease provide a valid table name');
       return;
     }
 
-    for (const column of this.columns) {
-      if (!column.name || !column.type) {
-        alert('Both column name and type are required.');
-        return;
-      }
+    this.validateColumns();
+    const invalidColumn = this.columns.find(column => column.error);
+    if (invalidColumn) {
+      alert(this.columns.map(column => column.error).join('\n'));
+      return;
     }
 
     const query = `CREATE TABLE ${this.table} (${this.columns

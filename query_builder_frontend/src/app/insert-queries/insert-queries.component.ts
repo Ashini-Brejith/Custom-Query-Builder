@@ -19,13 +19,13 @@ import { TableSectionComponent } from '../components/table-section/table-section
 export class InsertQueriesComponent {
  query = {
     table: '',
-    columns: [{ name: '', value: '' }],
+    columns: [{ name: '', value: '' ,error:''}],
   };
 
   columnError:string='';
 
   addColumn() {
-    this.query.columns.push({ name: '', value: '' });
+    this.query.columns.push({ name: '', value: '' , error:''});
   }
 
   removeColumn(index: number) {
@@ -33,24 +33,30 @@ export class InsertQueriesComponent {
     this.query.columns.splice(index, 1);
     }
   }
-
-  onColumnChange(value: string): void {
+  validateColumns() {
     const validColumnName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
-    if (!validColumnName.test(value)) {
-      this.columnError = 'Invalid column name!';
-    } else {
-      this.columnError = '';
-    }
+    this.query.columns.forEach((column, index) => {
+      if (!column.name || !validColumnName.test(column.name)) {
+        column.error = `Column name "${column.name}" is invalid`;
+      } else {
+        column.error = ''; 
+      }
+    });
   }
 
   generatedQuery: string = '';
   generateQuery() {
-    // Validate table and columns
     if (!this.query.table || !this.query.columns.length) {
-      alert('Please provide a table name and at least one column.');
+      alert('Please provide a valid table name and at least one column.');
       return;
     }
 
+    this.validateColumns();
+    const invalidColumn = this.query.columns.find(column => column.error);
+    if (invalidColumn) {
+      alert(this.query.columns.map(column => column.error).join('\n'));
+      return;
+    }
   
     const columnNames = this.query.columns
       .filter((column) => column.name) 
@@ -67,7 +73,6 @@ export class InsertQueriesComponent {
       return;
     }
 
-    // Generate the full query string
     this.generatedQuery = `INSERT INTO ${this.query.table} (${columnNames}) VALUES (${columnValues});`;
 
     console.log('Generated Query:', this.generatedQuery);

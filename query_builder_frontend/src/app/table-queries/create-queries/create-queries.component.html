@@ -25,14 +25,12 @@
             >
             <input
               [(ngModel)]="column.name"
-              (ngModelChange)="onColumnChange($event)"
+              (ngModelChange)="validateColumns()"
               name="name{{i}}"
               class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-8 px-2.5 py-4"
               required
               placeholder="Enter column name"
             />
-            <p *ngIf="columnError" class="text-red-800 text-sm mt-1">{{ columnError }}</p>
-
           </div>
 
           <div class="column w-1/8">
@@ -139,7 +137,7 @@
           <div class="column w-1/8 flex flex-wrap gap-4 pt-5">
             <img
               src="remove.svg"
-              (click)="removeColumn()"
+              (click)="removeColumn(i)"
               class="cursor-pointer w-8 h-8 hover:opacity-80"
             />
             </div>
@@ -165,3 +163,4 @@
     <app-display-query [generatedQuery]="generatedQuery"></app-display-query>
 
 </div>
+s
