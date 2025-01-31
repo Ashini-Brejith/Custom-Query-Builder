@@ -46,11 +46,10 @@ export class DeleteQueriesComponent {
     });
   }
 
-
   generateQuery() {
 
     if (!this.query.table) {
-      alert('Please provide a table name.');
+      alert('Please provide a valid table name.');
       return;
     }
 

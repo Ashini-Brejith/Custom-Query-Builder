@@ -23,18 +23,30 @@ export class AlterQueriesComponent {
   };
 
   generatedQuery: string = '';
+  columnError: string = '';
+  oldColumnError: string = '';
+  newColumnError: string = '';
 
-  columnError: string = ''
-
-  validateColumnName(name: string) {
+  validateColumnName(name: string): boolean {
     const validColumnName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
-    if (!validColumnName.test(name)) {
-      this.columnError = 'Invalid column name!';
+    return validColumnName.test(name);
+  }
+
+  validateNewColumnName() {
+    if (this.query.newColumn.name && !this.validateColumnName(this.query.newColumn.name)) {
+      this.newColumnError = 'Invalid new column name!';
       return false;
-    } else {
-      this.columnError = '';
-      return true;
     }
+    return true;
+  }
+
+  validateOldColumnName() {
+    if (this.query.oldColumnName && !this.validateColumnName(this.query.oldColumnName)) {
+      this.oldColumnError = 'Invalid old column name!';
+      return false;
+    }
+    this.oldColumnError = ''; 
+    return true;
   }
 
   generateQuery() {
@@ -43,21 +55,19 @@ export class AlterQueriesComponent {
       return;
     }
 
-    if (this.query.newColumn.name && !this.validateColumnName(this.query.newColumn.name)) {
-      alert('Please provide a valid new column name!')
+    if (this.query.newColumn.name && !this.validateNewColumnName()) {
+      alert('Please provide a valid new column name!');
       return;
     }
 
-    if (this.query.oldColumnName && !this.validateColumnName(this.query.oldColumnName)) {
-      alert('Please provide a valid column name!')
+    if (this.query.oldColumnName && !this.validateOldColumnName()) {
+      alert('Please provide a valid old column name!');
       return;
     }
 
     if (this.query.newColumn.name && this.query.newColumn.type) {
       this.generatedQuery = `ALTER TABLE ${this.query.table} ADD COLUMN ${this.query.newColumn.name} ${this.query.newColumn.type.toUpperCase()};`;
-    }
-
-    else if (this.query.oldColumnName && this.query.newColumnName) {
+    } else if (this.query.oldColumnName && this.query.newColumnName) {
       this.generatedQuery = `ALTER TABLE ${this.query.table} RENAME COLUMN ${this.query.oldColumnName} TO ${this.query.newColumnName};`;
     } else {
       alert('Please provide the necessary details for adding or renaming a column.');

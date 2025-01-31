@@ -62,7 +62,7 @@ export class UpdateQueriesComponent {
     const validColumnName = /^[a-zA-Z][a-zA-Z0-9_]*$/;
     this.query.filters.forEach((filter, index) => {
       if (!filter.field || !validColumnName.test(filter.field)) {
-        filter.error = `Column name "${filter.field}" is invalid`;
+        filter.error = `Field name is invalid`;
       } else {
         filter.error = '';
       }
