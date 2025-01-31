@@ -9,8 +9,8 @@
       <select
         [(ngModel)]="join.type"
         (ngModelChange)="onJoinChange()"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
-      >
+        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
+        >
         <option value="INNER">INNER</option>
         <option value="LEFT">LEFT</option>
         <option value="RIGHT">RIGHT</option>
@@ -26,7 +26,7 @@
         [(ngModel)]="join.table"
         (ngModelChange)="onJoinChange(); onTableChange($event)"
         name="JoinTable{{ i }}"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
         placeholder="Table name"
       />
       <p *ngIf="tableError" class="text-red-800 text-sm mt-1">{{ tableError }}</p>
@@ -41,7 +41,7 @@
         [(ngModel)]="join.alias"
         (ngModelChange)="onJoinChange(); onAliasChange($event)"
         name="JoinAlias{{ i }}"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
         placeholder="Table alias (Optional)"
       />
       <p *ngIf="aliasError" class="text-red-800 text-sm mt-1">{{ aliasError }}</p>
@@ -55,7 +55,7 @@
         [(ngModel)]="join.on"
         (ngModelChange)="onJoinChange()"
         name="JoinOn{{ i }}"
-        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-1 w-full"
+        class="border border-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block h-8 p-2.5 w-full"
         placeholder="e.g., a.id = b.ref"
       />
     </div>
